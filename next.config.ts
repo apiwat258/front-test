@@ -3,12 +3,15 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   eslint: {
-    ignoreDuringBuilds: true, // ✅ ข้าม ESLint Error
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true, // ✅ ข้าม TypeScript Error
+    ignoreBuildErrors: true,
   },
-  output: "export", // ✅ ข้าม SSR, Prerender Error!
+  output: "export", // ✅ สำคัญมาก
+  experimental: {
+    appDir: true, // ยืนยันว่าใช้ App Router
+  },
 };
 
 export default nextConfig;
