@@ -1,3 +1,6 @@
+'use client';
+export const dynamic = 'force-dynamic';
+
 import './globals.css';
 import ClientNavbarWrapper from '../components/ClientNavbarWrapper';
 import { Raleway } from 'next/font/google';
