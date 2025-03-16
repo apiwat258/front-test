@@ -1,14 +1,14 @@
 'use client';
 export const dynamic = 'force-dynamic';
 
-
 import Details from './Details';
+import { Suspense } from 'react';
 
 const Page = () => {
     return (
-        <div>
+        <Suspense fallback={<div>Loading...</div>}>
             <Details />
-        </div>
+        </Suspense>
     );
 }
 export default Page;

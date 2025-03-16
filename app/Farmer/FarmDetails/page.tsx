@@ -1,14 +1,14 @@
 'use client';
 export const dynamic = 'force-dynamic';
 
-
 import FarmDetails from './FarmDetails';
+import { Suspense } from 'react';
 
 const Page = () => {
     return (
-        <div>
+        <Suspense fallback={<div>Loading...</div>}>
             <FarmDetails />
-        </div>
+        </Suspense>
     );
 }
 export default Page;
