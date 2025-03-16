@@ -1,6 +1,6 @@
 import API_BASE_URL from './apiConfig';
 
-const API_URL = `${API_BASE_URL}/factory/milk`;
+const API_URL = `${API_BASE_URL}/factory/milk/`;
 
 export const getFactoryRawMilkTanks = async (mode: "list" | "selection" = "list"): Promise<any> => {
     try {

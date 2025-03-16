@@ -1,6 +1,6 @@
 import API_BASE_URL from './apiConfig';
 
-const API_URL = `${API_BASE_URL}/tracking`;
+const API_URL = `${API_BASE_URL}/tracking/`;
 
 export const fetchAllTrackingIds = async (): Promise<any[]> => {
     try {

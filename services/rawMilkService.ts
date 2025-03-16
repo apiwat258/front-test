@@ -1,6 +1,6 @@
 import API_BASE_URL from './apiConfig';
 
-const API_URL = `${API_BASE_URL}/farm/milk`;
+const API_URL = `${API_BASE_URL}/farm/milk/`;
 
 export const createMilkTank = async (data: any): Promise<{ 
     success: boolean; 
