@@ -1,7 +1,5 @@
 'use client';
-export const dynamic = 'force-dynamic';
-
-"use client";
+export const dynamic = 'force-dynamic';s
 
 import exp from "constants";
 import Profile from "./Profile";
