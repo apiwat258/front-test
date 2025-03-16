@@ -1,19 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true, // ✅ ข้าม ESLint Error
+  },
   typescript: {
-    ignoreBuildErrors: true, // ✅ บังคับข้าม Type Error
+    ignoreBuildErrors: true, // ✅ ข้าม TypeScript Error
   },
-  experimental: {
-    optimizeCss: true,
-  },
-  // ✅ สำคัญ: ปิด strict mode build error
-  output: 'export', // ช่วยลดปัญหา dependency
-  transpilePackages: [], // ป้องกัน package บางตัว crash
+  output: "export", // ✅ ข้าม SSR, Prerender Error!
 };
 
 export default nextConfig;
