@@ -1,5 +1,7 @@
 
 "use client";
+export const dynamic = 'force-dynamic';
+
 import { useState, useEffect } from 'react';
 import { getUserInfo, updateUserInfo } from "../../../services/authService";
 import { logout } from '@/services/authService'; // ✅ Import ฟังก์ชัน Logout

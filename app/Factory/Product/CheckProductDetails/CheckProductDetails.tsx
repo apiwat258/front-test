@@ -1,4 +1,6 @@
 "use client";
+export const dynamic = 'force-dynamic';
+
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { createProduct } from "@/services/productService"; // ✅ Import API Service
