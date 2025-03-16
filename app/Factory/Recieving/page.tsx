@@ -1,3 +1,5 @@
+'use client';
+
 import Recieving from "./Recieving";
 
 const Page = () => {
