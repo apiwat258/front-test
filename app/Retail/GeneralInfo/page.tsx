@@ -1,3 +1,4 @@
+'use client';
 import GeneralInfo from './GeneralInfo';
 
 const Page = () => {

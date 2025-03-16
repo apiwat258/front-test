@@ -1,3 +1,5 @@
+'use client';
+
 import AddProductLot from "./AddProductLot";
 
 const Page = () => {

@@ -1,3 +1,4 @@
+'use client';
 import FarmGeneralInfo from './FarmGeneralInfo';
 
 const Page = () => {

@@ -1,3 +1,5 @@
+'use client';
+
 import FarmDetails from './FarmDetails';
 
 const Page = () => {

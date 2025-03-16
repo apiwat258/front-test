@@ -1,3 +1,5 @@
+'use client';
+
 import CheckDetails from "./CheckDetails";
 
 const Page = () => {

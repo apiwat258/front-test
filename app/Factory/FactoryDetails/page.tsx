@@ -1,3 +1,5 @@
+'use client';
+
 import FactoryDetails from './FactoryDetails';
 
 const Page = () => {

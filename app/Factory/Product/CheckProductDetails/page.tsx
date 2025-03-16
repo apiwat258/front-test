@@ -1,3 +1,5 @@
+
+'use client';
 import CheckProductDetails from "./CheckProductDetails";
 
 const Page = () => {

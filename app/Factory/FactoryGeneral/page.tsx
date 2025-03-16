@@ -1,3 +1,5 @@
+'use client';
+
 import FactoryGeneral from "./FactoryGeneral";
 
 const page = () => {

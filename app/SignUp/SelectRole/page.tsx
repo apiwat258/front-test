@@ -1,3 +1,4 @@
+'use client';
 import SelectRole from "./SelectRole";
 
 const Page = () => {

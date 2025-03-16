@@ -1,3 +1,5 @@
+'use client';
+
 import FarmCreateRM from "./FarmCreateRM";
 
 const Page = () => {
