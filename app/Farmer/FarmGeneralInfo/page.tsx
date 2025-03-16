@@ -1,6 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 
+
 import FarmGeneralInfo from './FarmGeneralInfo';
 
 const Page = () => {
