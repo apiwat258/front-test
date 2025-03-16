@@ -8,7 +8,7 @@ const API_URL = `${API_BASE_URL}/certifications`;
 // ✅ ดึงใบเซอร์ของฟาร์มของผู้ใช้ที่ล็อกอินอยู่
 export const getUserCertifications = async (includeExpired: boolean = false) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/me`, {
+        const response = await axios.get(`${API_URL}/me`, {
             params: { includeExpired }, 
             withCredentials: true, 
         });
@@ -31,7 +31,7 @@ export const storeCertification = async (certCID: string) => {
     }
 
     try {
-        const response = await fetch(`${API_BASE_URL}/store`, { 
+        const response = await fetch(`${API_URL}/store`, { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include", 
@@ -72,7 +72,7 @@ export const uploadCertificate = async (file: File): Promise<string | null> => {
 
         console.log("📌 DEBUG - Uploading File:", file.name);
 
-        const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
+        const response = await axios.post(`${API_URL}/upload`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
@@ -96,7 +96,7 @@ export const uploadCertificateAndCheck = async (certificateFile: File): Promise<
         console.log("📌 Received CID from IPFS:", uploadResult);
 
         // ✅ ตรวจสอบ `certCID` ซ้ำทันทีหลังจากอัปโหลด
-        const certCheckResponse = await fetch(`${API_BASE_URL}/check/${uploadResult}`, {
+        const certCheckResponse = await fetch(`${API_URL}/check/${uploadResult}`, {
             method: "GET",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
@@ -128,7 +128,7 @@ export const deleteCertificate = async (eventID: string) => {
     try {
         if (!eventID) throw new Error("Event ID is required for deleting certificate");
 
-        const response = await axios.delete(`${API_BASE_URL}/`, { // ✅ ใช้ `/` ตาม API ใหม่
+        const response = await axios.delete(`${API_URL}/`, { // ✅ ใช้ `/` ตาม API ใหม่
             params: { eventID }, // ✅ ส่ง eventID ผ่าน Query Params
             withCredentials: true, // ✅ ส่ง Cookie/JWT เพื่อให้ backend ดึง entityID เอง
         });
