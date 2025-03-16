@@ -1,6 +1,5 @@
 'use client';
-export const dynamic = 'force-dynamic';
-"use client"; // ✅ ใช้ Client Component
+export const dynamic = 'force-dynamic'; // ✅ ใช้ Client Component
 import Link from "next/link";
 import { QrButton } from "@/components/qr-button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
