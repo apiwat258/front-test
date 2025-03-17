@@ -5,6 +5,8 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from 'next/navigation';
 import { Dialog } from '@headlessui/react';
 import { resolve } from "path";
+import { generateTankId } from "@/services/rawMilkService"; // ✅ import ฟังก์ชันใหม่
+
 
 interface GeoData {
     id: number;
@@ -103,7 +105,25 @@ const FarmCreateRM = () => {
     }
 
     const router = useRouter();
-
+    useEffect(() => {
+        const fetchTankId = async () => {
+            const result = await generateTankId();
+            if (result.success && result.tankId) {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    milkTankInfo: {
+                        ...prevData.milkTankInfo,
+                        TankId: result.tankId, // ✅ เซ็ต tankId
+                    },
+                }));
+            } else {
+                console.error("Failed to generate Tank ID:", result.message);
+            }
+        };
+    
+        fetchTankId();
+    }, []);
+    
     // save form Data
     const [formData, setFormData] = useState({
         milkTankInfo: {

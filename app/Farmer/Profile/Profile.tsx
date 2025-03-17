@@ -97,19 +97,30 @@ const Profile = () => {
                         </label>
                     </div>
                     <div className="flex flex-col items-center gap-3 w-1/2">
-                        <div className="flex justify-between gap-6 w-full">
-                            <p className="text-lg font-bold">Username:</p>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    className="text-lg text-left w-32 border-b-2 border-gray-300 focus:outline-none"
-                                />
-                            ) : (
-                                <p className="text-lg text-left w-32">{username}</p>
-                            )}
+                    <div className="flex justify-between gap-6 w-full">
+                        <p className="text-lg font-bold">Username:</p>
+                        {isEditing ? (
+                            <div className="flex flex-col gap-2 w-32">
+                            <input
+                                type="text"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                className="text-lg text-left border-b-2 border-gray-300 focus:outline-none"
+                                placeholder="First Name"
+                            />
+                            <input
+                                type="text"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                className="text-lg text-left border-b-2 border-gray-300 focus:outline-none"
+                                placeholder="Last Name"
+                            />
+                            </div>
+                        ) : (
+                            <p className="text-lg text-left w-32">{firstName} {lastName}</p>
+                        )}
                         </div>
+
                         <div className="flex justify-between gap-6 w-full">
                             <p className="text-lg font-bold">Password:</p>
                             <div className='flex gap-2 w-32'>
@@ -161,12 +172,12 @@ const Profile = () => {
                             {isEditing ? (
                                 <input
                                     type="tel"
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
+                                    value={telephone}
+                                    onChange={(e) => setTelephone(e.target.value)}
                                     className="text-lg text-left w-32 border-b-2 border-gray-300 focus:outline-none"
                                 />
                             ) : (
-                                <p className="text-lg text-left w-32">{phone}</p>
+                                <p className="text-lg text-left w-32">{telephone}</p>
                             )}
                         </div>
                     </div>

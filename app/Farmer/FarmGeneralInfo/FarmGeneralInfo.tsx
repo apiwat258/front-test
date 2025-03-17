@@ -4,11 +4,12 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from "react";
 import { MapProvider } from "@/providers/map-provider";
 import { MapComponent } from "@/components/map";
-import { updateUserRole } from "@/services/authService"; // ✅ ใช้ updateUserRole
+import { updateUserRole, getUserInfo } from "@/services/authService"; // ✅ ใช้ updateUserRole
 import { getFarmInfo, updateFarmInfo, createFarm,  } from "@/services/farmService";
 import { getUserCertifications, uploadCertificateAndCheck,handleDeleteCertificate, deleteCertificate, storeCertification} from "@/services/certificateService";
 import { handleFileChange } from "@/services/fileService";
 import { getGeoData, getProvinceList, getDistrictList, getSubDistrictList } from "@/services/geoService";
+
 
 interface GeoData {
     id: number;
@@ -39,6 +40,8 @@ const FarmGeneralInfo = () => {
     const [selectedSubDistrict, setSelectedSubDistrict] = useState<string>("");
     const [isCreating, setIsCreating] = useState<boolean>(false);
     const [certificatesToDelete, setCertificatesToDelete] = useState<string[]>([]);
+    const [username, setUsername] = useState<string>("");
+
 
 
 
@@ -46,41 +49,70 @@ const FarmGeneralInfo = () => {
 
     // ✅ ตรวจสอบว่าผู้ใช้มีฟาร์มหรือยัง
     useEffect(() => {
-        const fetchFarmData = async () => {
-            try {
-                const data = await getFarmInfo();
-                console.log("📌 Farm Data:", data); // ✅ ตรวจสอบว่ามีข้อมูลฟาร์มหรือไม่
+      const fetchData = async () => {
+        try {
+          // ✅ ดึง Farm Info
+          const farm = await getFarmInfo();
+          console.log("📌 Farm Data:", farm);
     
-                if (data) {
-                    setFarmData(data);
-                    setSelectedProvince(data.province || "");
-                    setSelectedDistrict(data.district || "");
-                    setSelectedSubDistrict(data.subdistrict || "");
-                    setIsCreating(false);
-                    setIsEditable(false);
-                } else {
-                    console.warn("🚨 No farm found → Switching to Create Mode");
-                    setIsCreating(true);
-                    setIsEditable(true);
-                }
-            } catch (error) {
-                console.error("❌ Error fetching farm data:", error);
-                setIsCreating(true);
-                setIsEditable(true);
-            }
-        };
-        const fetchCertificates = async () => {
-            try {
-                const data = await getUserCertifications();
-                setCertificateData(data);
-            } catch (error) {
-                console.error("❌ Error fetching certification data:", error);
-            }
-        };
+          // ✅ ดึง User Info
+          const user = await getUserInfo();
+          console.log("📌 User Info:", user);
     
-        fetchFarmData();
-        fetchCertificates();
+          if (farm) {
+            setFarmData({
+              ...farm,
+              fName: user?.firstName || "",  // เติมจาก user info
+              lName: user?.lastName || "",
+            });
+    
+            setSelectedProvince(farm.province || "");
+            setSelectedDistrict(farm.district || "");
+            setSelectedSubDistrict(farm.subdistrict || "");
+            setIsCreating(false);
+            setIsEditable(false);
+          } else {
+            console.warn("🚨 No farm found → Switching to Create Mode");
+            setFarmData({
+              fName: user?.firstName || "",
+              lName: user?.lastName || "",
+            });
+            setIsCreating(true);
+            setIsEditable(true);
+          }
+    
+        } catch (error) {
+          console.error("❌ Error fetching farm/user data:", error);
+          setIsCreating(true);
+          setIsEditable(true);
+        }
+      };
+    
+      fetchData();
     }, []);
+    
+    
+    useEffect(() => {
+      const fetchUserInfo = async () => {
+        try {
+          const userInfo = await getUserInfo();
+          console.log("📌 [DEBUG] User Info:", userInfo);
+    
+          if (userInfo) {
+            setFarmData((prevData: any) => ({
+              ...prevData,
+              fName: userInfo.firstName || "",
+              lName: userInfo.lastName || "",
+            }));
+          }
+        } catch (error) {
+          console.error("❌ Error fetching user info:", error);
+        }
+      };
+    
+      fetchUserInfo();
+    }, [isCreating]); // เพิ่ม isCreating เพื่อให้มัน re-fetch หลังสร้าง Farm เสร็จ
+    
     
     
     useEffect(() => {

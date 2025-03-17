@@ -1,4 +1,5 @@
 import API_BASE_URL from './apiConfig';
+import { refreshToken } from "./authService"; // ✅ Import refreshToken
 
 const API_URL = `${API_BASE_URL}/farmers`;
 
@@ -92,22 +93,20 @@ export const getFarmInfo = async (): Promise<any | null> => {
 // ✅ ฟังก์ชันสร้างฟาร์มใหม่
 export const createFarm = async (farmData: any): Promise<any | null> => {
     try {
-        // ✅ ใช้ `FormData` เพื่อส่งไป Backend
         const formData = new FormData();
         formData.append("farmName", farmData.farmName);
         formData.append("email", farmData.email);
         formData.append("address", farmData.address);
         formData.append("district", farmData.district);
-        formData.append("subdistrict", farmData.subdistrict); // ✅ ตรวจสอบค่าก่อนส่ง
+        formData.append("subdistrict", farmData.subdistrict);
         formData.append("province", farmData.province);
-        formData.append("phone", farmData.phone); // ✅ ตรวจสอบค่าก่อนส่ง
-        formData.append("areaCode", farmData.areaCode); // ✅ ตรวจสอบค่าก่อนส่ง
-        formData.append("location_link", farmData.location); // ✅ แก้ไขให้ตรงกับ backend
-        formData.append("cert_cid", farmData.certCID); // ✅ แก้ไขให้ตรงกับ backend
+        formData.append("phone", farmData.phone);
+        formData.append("areaCode", farmData.areaCode);
+        formData.append("location_link", farmData.location);
+        formData.append("cert_cid", farmData.certCID);
 
         console.log("📌 Final FormData before sending:", formData);
 
-        // ✅ ส่งข้อมูลไปที่ Backend (แก้ URL)
         const response = await fetch(`${API_URL}/create`, {
             method: "POST",
             credentials: "include",
@@ -120,6 +119,14 @@ export const createFarm = async (farmData: any): Promise<any | null> => {
 
         const result = await response.json();
         console.log("✅ Farm created successfully:", result);
+
+        // ✅ เรียก Refresh Token หลังจากสร้างฟาร์มสำเร็จ
+        const token = await refreshToken();
+        if (token) {
+            console.log("🔄 Token refreshed after farm creation.");
+        } else {
+            console.warn("⚠️ Failed to refresh token after farm creation.");
+        }
 
         return result;
     } catch (error) {

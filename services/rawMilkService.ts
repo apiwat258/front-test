@@ -41,6 +41,34 @@ export const createMilkTank = async (data: any): Promise<{
     }
 };
 
+export const generateTankId = async (): Promise<{ 
+    success: boolean; 
+    tankId?: string; 
+    message?: string; 
+}> => {
+    try {
+        const response = await fetch(API_URL + "generate-tank-id", {
+            method: "GET",
+            credentials: "include", // ✅ เพราะต้องใช้ Token
+        });
+
+        if (!response.ok) {
+            const errorResult = await response.json().catch(() => ({ error: "Unknown error occurred" }));
+            return { success: false, message: errorResult.error };
+        }
+
+        const result = await response.json();
+        return {
+            success: true,
+            tankId: result.tankId,
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: "Network error: Unable to reach the server",
+        };
+    }
+};
 
 export const getFarmRawMilkTanks = async (): Promise<any> => {
     try {
