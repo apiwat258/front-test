@@ -98,7 +98,8 @@ export const getFarmRawMilkTanks = async (): Promise<any> => {
                 tankId: tank.moreInfoLink.split("=")[1].trim(), // ✅ ใช้ trim() เพื่อลบ `\u0000`
                 personInCharge: tank.personInCharge,
             },
-            status: tank.status === 0 ? "Pending" : tank.status === 1 ? "Received" : "Rejected", // ✅ เพิ่มเงื่อนไขสำหรับ `Rejected`
+            status: tank.status === 0 ? "Pending" : tank.status === 1 ? "Received" : tank.status === 2? "Rejected": tank.status === 3? "Used": "Unknown", // เผื่ออนาคตมีค่าอื่น
+
             id: tank.moreInfoLink.split("=")[1].trim(), // ✅ ใช้ trim() เพื่อลบ `\u0000`
         }));
 

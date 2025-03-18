@@ -1,25 +1,24 @@
 'use client';
 export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import { useEffect, useState } from "react";
-import { fetchAllTrackingIds } from "@/services/trackingService"; // ✅ เชื่อม API
+import { fetchOngoingShipments } from "@/services/trackingService"; // ✅ เปลี่ยน API Service ตัวใหม่
 
-const Recieve = () => {
+const Ongoing = () => {
     const [trackingData, setTrackingData] = useState<
-    { trackingId?: string; personInCharge?: string; productLotId?: string; status?: number }[]
+        { trackingId?: string; personInCharge?: string; productLotId?: string; status?: number | string }[]
     >([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchAllTrackingIds();
-                console.log("🔥 Debug - Tracking Data:", data); // ✅ Debug API Response
+                const data = await fetchOngoingShipments(); // ✅ ใช้ฟังก์ชันใหม่
+                console.log("🔥 Debug - Ongoing Shipments Data:", data);
 
-                // ✅ กรองเฉพาะแทร็กกิ้งที่มีสถานะเป็น 1 (รับแล้ว)
-                const filteredData = data.filter((item: any) => item.status === 1);
-                setTrackingData(filteredData);
+                setTrackingData(data); // ✅ ไม่ต้องกรอง เพราะ Smart Contract กรอง InTransit มาให้แล้ว
             } catch (error) {
-                console.error("❌ Error fetching tracking IDs:", error);
+                console.error("❌ Error fetching ongoing shipments:", error);
             }
         };
 

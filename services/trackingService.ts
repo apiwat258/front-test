@@ -36,6 +36,72 @@ export const fetchAllTrackingIds = async (): Promise<any[]> => {
     }
 };
 
+export const fetchLogisticsWaitingForPickup = async (): Promise<any[]> => {
+    try {
+        const url = `${API_URL}logistics/waiting-pickup`;
+
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include", // ✅ ส่ง Cookie JWT
+            cache: "no-store",
+        });
+
+        if (!response.ok) {
+            console.error(`❌ Failed to fetch logistics waiting pickup, Status: ${response.status}`);
+            throw new Error("Failed to fetch logistics waiting pickup");
+        }
+
+        const data = await response.json();
+        console.log("📡 API Response (Waiting Pickup):", JSON.stringify(data, null, 2));
+
+        if (!data.trackingList || !Array.isArray(data.trackingList)) {
+            console.error("❌ Invalid API response format:", data);
+            return [];
+        }
+
+        return data.trackingList;
+    } catch (error) {
+        console.error("❌ Error fetching logistics waiting pickup:", error);
+        return [];
+    }
+};
+
+// ✅ ฟังก์ชันดึงรายการ Ongoing Shipments ของ Logistics
+export const fetchOngoingShipments = async (): Promise<any[]> => {
+    try {
+        const url = `${API_URL}logistics/ongoing`;
+
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            cache: "no-store",
+        });
+
+        if (!response.ok) {
+            console.error(`❌ Failed to fetch ongoing shipments, Status: ${response.status}`);
+            throw new Error("Failed to fetch ongoing shipments");
+        }
+
+        const data = await response.json();
+        console.log("📡 API Response (Ongoing Shipments):", JSON.stringify(data, null, 2));
+
+        if (!data.ongoingShipments || !Array.isArray(data.ongoingShipments)) {
+            console.error("❌ Invalid API response format:", data);
+            return [];
+        }
+
+        return data.ongoingShipments;
+    } catch (error) {
+        console.error("❌ Error fetching ongoing shipments:", error);
+        return [];
+    }
+};
 
 export const updateLogisticsCheckpoint = async (trackingId: string, checkpoints: any): Promise<any> => {
     try {
