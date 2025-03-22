@@ -3,6 +3,8 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { fetchProductLotDetails } from "@/services/productlotService";
+
 
 interface GeoData {
     id: number;
@@ -64,12 +66,49 @@ const Recieving = () => {
     const [selectedSubDistrict, setSelectedSubDistrict] = useState<string>("");
     const searchParams = useSearchParams(); // ✅ ใช้ useSearchParams เพื่อดึงค่าจาก URL
     const trackingIdFromURL = searchParams.get("id") || ""; // ✅ ดึงค่า id ถ้าไม่มีให้เป็น
-
+    const lotIdFromURL = searchParams.get("lotId") || ""; // ✅ ดึง productLotId
+    const [lotInfo, setLotInfo] = useState({
+        factoryName: "",
+        productLotId: "",
+        personInCharge: ""
+    });
+    useEffect(() => {
+        const getProductLotDetails = async () => {
+            if (!lotIdFromURL) return;
+    
+            try {
+                const productLotData = await fetchProductLotDetails(lotIdFromURL); 
+                console.log("📦 Product Lot Data:", productLotData);
+    
+                if (productLotData) {
+                    const factoryName = productLotData.shippingAddresses[0]?.qrCodeData?.factory?.factoryName || "";
+                    const productLotId = productLotData.shippingAddresses[0]?.qrCodeData?.productLotId || "";
+                    const personInCharge = productLotData.Quality?.inspector || "";
+    
+                    setLogisRecieve((prev) => {
+                        const updated = [...prev];
+                        updated[0].GeneralInfo.farmName = factoryName;
+                        updated[0].GeneralInfo.productLot = productLotId;
+                        updated[0].GeneralInfo.personInCharge = personInCharge;
+                        return updated;
+                    });
+                }
+            } catch (error) {
+                console.error("❌ Failed to fetch ProductLot:", error);
+            }
+        };
+    
+        getProductLotDetails();
+    }, [lotIdFromURL]);
+    
+    
+    
     useEffect(() => {
         fetch("/data/geography.json")
             .then((res) => res.json())
             .then((data: GeoData[]) => {
                 setGeoData(data);
+                
 
                 // ดึงจังหวัดที่ไม่ซ้ำ (ใช้ภาษาไทยให้ตรงกับ selectedProvince)
                 const provinces = Array.from(new Set(data.map((item: GeoData) => item.provinceNameEn)));

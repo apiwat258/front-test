@@ -1,22 +1,33 @@
-'use client';
+"use client";
 export const dynamic = 'force-dynamic';
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { fetchLogisticsWaitingForPickup } from "@/services/trackingService"; // ✅ เปลี่ยน service ใหม่
+import { fetchLogisticsWaitingForPickup } from "@/services/trackingService";
 
 const Delivered = () => {
     const [trackingData, setTrackingData] = useState<
-        { trackingId?: string; productLotId?: string; personInCharge?: string; status?: string }[]
+        { trackingId?: string; productLotId?: string; personInChargePrevious?: string; status?: string }[]
     >([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchLogisticsWaitingForPickup(); // ✅ เปลี่ยนมาใช้ API ใหม่
+                const data = await fetchLogisticsWaitingForPickup();
 
-                console.log("🔥 Debug - Filtered Tracking Data:", data);
-                setTrackingData(data); // ✅ รับข้อมูลตรงๆ ไม่ต้อง filter แล้ว
+                // ✅ Map Status → แปลงเป็นข้อความตามดีไซน์
+                const mappedData = data.map((item) => ({
+                    ...item,
+                    status:
+                        item.status === 0
+                            ? "Pending"
+                            : item.status === 2
+                            ? "SpecialMatch"
+                            : "InTransit", // Default กันพลาด
+                }));
+
+                console.log("🔥 Debug - Mapped Tracking Data:", mappedData);
+                setTrackingData(mappedData);
             } catch (error) {
                 console.error("❌ Error fetching tracking data:", error);
             }
@@ -56,14 +67,14 @@ const Delivered = () => {
                             </div>
 
                             <div className="flex flex-col md:flex-row justify-between items-center w-full">
-                                {item.personInCharge && (
+                                {item.personInChargePrevious && (
                                     <span className="text-xl md:text-2xl font-semibold">
-                                        Person In Charge: <p className="inline font-normal">{item.personInCharge}</p>
+                                        Person In Charge: <p className="inline font-normal">{item.personInChargePrevious}</p>
                                     </span>
                                 )}
                                 {item.productLotId && (
                                     <Link
-                                        href={`/Logistic/Deliver/Details??lotId=${item.productLotId}`}
+                                        href={`/Logistic/Deliver/Details?lotId=${item.productLotId}`}
                                         className="text-lg md:text-xl underline italic cursor-pointer mt-2 md:mt-0"
                                     >
                                         More info
@@ -76,8 +87,8 @@ const Delivered = () => {
                                 <>
                                     {item.status === "Pending" && (
                                         <Link
-                                            href={`/Logistic/Recieving?id=${item.trackingId}`}
-                                            className="bg-[#198754] text-white p-2 w-full rounded-xl hover:bg-[#3eb055] text-center"
+                                         href={`/Logistic/Recieving?id=${item.trackingId}&lotId=${item.productLotId}`}
+                                        className="bg-[#198754] text-white p-2 w-full rounded-xl hover:bg-[#3eb055] text-center"
                                         >
                                             Receive
                                         </Link>
@@ -95,7 +106,6 @@ const Delivered = () => {
                         </div>
                     ))}
                 </div>
-
             </div>
         </div>
     );
