@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from "react";
 import { fetchOngoingShipments } from "@/services/trackingService"; // ✅ เปลี่ยน API Service ตัวใหม่
 
-const Ongoing = () => {
+const Recieve = () => {
     const [trackingData, setTrackingData] = useState<
         { trackingId?: string; personInCharge?: string; productLotId?: string; status?: number | string }[]
     >([]);
