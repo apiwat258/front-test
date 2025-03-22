@@ -1,12 +1,15 @@
 'use client';
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'; // ✅ บอกว่าเป็น dynamic page
 
-
-import Details from "./Details";
+import { Suspense } from 'react';
+import Details from './Details';
 
 const Page = () => {
     return (
-        <Details />
+        <Suspense fallback={<div>Loading...</div>}> {/* ✅ Suspense ครอบ */}
+            <Details />
+        </Suspense>
     );
 };
+
 export default Page;
