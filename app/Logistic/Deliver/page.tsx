@@ -63,7 +63,7 @@ const Delivered = () => {
                                 )}
                                 {item.productLotId && (
                                     <Link
-                                        href={`/Logistic/Deliver/Details?id=${item.productLotId}`}
+                                        href={`/Logistic/Deliver/Details??lotId=${item.productLotId}`}
                                         className="text-lg md:text-xl underline italic cursor-pointer mt-2 md:mt-0"
                                     >
                                         More info

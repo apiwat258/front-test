@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from "react";
 import { MapProvider } from "@/providers/map-provider";
 import { MapComponent } from "@/components/map";
-import { updateUserRole } from "@/services/authService"; // ✅ ใช้ updateUserRole
+import { updateUserRole, getUserInfo } from "@/services/authService"; // ✅ ใช้ updateUserRole
 import { getRetailerInfo, updateRetailerInfo, createRetailer } from "@/services/retailerService";
 import { getUserCertifications, uploadCertificateAndCheck, handleDeleteCertificate, deleteCertificate, storeCertification } from "@/services/certificateService";
 import { handleFileChange } from "@/services/fileService";
@@ -41,6 +41,8 @@ const GeneralInfo = () => {
     const [selectedSubDistrict, setSelectedSubDistrict] = useState<string>("");
     const [isCreating, setIsCreating] = useState<boolean>(false);
     const [certificatesToDelete, setCertificatesToDelete] = useState<string[]>([]);
+    const [username, setUsername] = useState<string>("");
+
 
     // ✅ ตรวจสอบว่าผู้ใช้มีร้านค้าหรือยัง
 useEffect(() => {
@@ -49,8 +51,15 @@ useEffect(() => {
             const data = await getRetailerInfo(); // ✅ เปลี่ยนจาก getFactoryInfo เป็น getRetailerInfo
             console.log("📌 Retailer Data:", data); // ✅ ตรวจสอบว่ามีข้อมูลร้านค้าหรือไม่
 
+            const user = await getUserInfo();
+          console.log("📌 User Info:", user);
+
             if (data) {
-                setRetailerData(data);
+              setRetailerData({
+                ...data,
+                fName: user?.firstName || "",  // เติมจาก user info
+                lName: user?.lastName || "",
+              });
                 setSelectedProvince(data.province || "");
                 setSelectedDistrict(data.district || "");
                 setSelectedSubDistrict(data.subdistrict || "");
@@ -58,6 +67,10 @@ useEffect(() => {
                 setIsEditable(false);
             } else {
                 console.warn("🚨 No retailer found → Switching to Create Mode");
+                setRetailerData({
+                  fName: user?.firstName || "",
+                  lName: user?.lastName || "",
+                });
                 setIsCreating(true);
                 setIsEditable(true);
             }
@@ -80,6 +93,27 @@ useEffect(() => {
     fetchRetailerData(); // ✅ เรียกข้อมูลร้านค้าแทนโรงงาน
     fetchCertificates();
 }, []);
+
+useEffect(() => {
+  const fetchUserInfo = async () => {
+    try {
+      const userInfo = await getUserInfo();
+      console.log("📌 [DEBUG] User Info:", userInfo);
+
+      if (userInfo) {
+        setRetailerData((prevData: any) => ({
+          ...prevData,
+          fName: userInfo.firstName || "",
+          lName: userInfo.lastName || "",
+        }));
+      }
+    } catch (error) {
+      console.error("❌ Error fetching user info:", error);
+    }
+  };
+
+  fetchUserInfo();
+}, [isCreating]);
 
 useEffect(() => {
     console.log("🔄 Updated isCreating:", isCreating);

@@ -3,35 +3,89 @@
 export const dynamic = 'force-dynamic';
 
 import { getDisplayName } from 'next/dist/shared/lib/utils';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { logout } from '@/services/authService'; // ✅ Import ฟังก์ชัน Logout
+import { getUserInfo, updateUserInfo, logout } from "../../../services/authService"; 
 
 
 const Profile = () => {
     const [profileImage, setProfileImage] = useState("/images/ProfileDefault.jpg");
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [username, setUsername] = useState("user");
     const [password, setPassword] = useState("12345");
     const [role, setRole] = useState("Retail");
     const [email, setEmail] = useState("user@gmail.com");
-    const [phone, setPhone] = useState("+1234567890");
     const [showPassword, setShowPassword] = useState(false);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [telephone, setTelephone] = useState("+1234567890");
     const router = useRouter();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const userInfo = await getUserInfo();
+                if (userInfo) {
+                    setEmail(userInfo.email);
+                    setTelephone(userInfo.telephone); // โชว์ Phone เดิม
+                    setFirstName(userInfo.firstName);
+                    setLastName(userInfo.lastName);
+                    setUsername(`${userInfo.firstName} ${userInfo.lastName}`); // โชว์รวม
+                    setProfileImage(userInfo.profileImage || "/images/profile2.jpg");
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const fullName = e.target.value;
+        setUsername(fullName);
+        const nameParts = fullName.trim().split(" ");
+        setFirstName(nameParts[0] || "");
+        setLastName(nameParts.slice(1).join(" ") || "");
+    };
+    
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+            setSelectedFile(file); // สำคัญ!
             const reader = new FileReader();
             reader.onload = (e) => {
                 if (e.target?.result) {
                     setProfileImage(e.target.result as string);
                 }
             };
-            reader.readAsDataURL(event.target.files[0]);
+            reader.readAsDataURL(file);
         }
     };
+    
 
-    const handleEditClick = () => {
+    const handleEditClick = async () => {
+        if (isEditing) {
+            try {
+                const success = await updateUserInfo(
+                    email,
+                    telephone,
+                    firstName,
+                    lastName,
+                    password,
+                    selectedFile
+                );
+                if (!success) {
+                    alert("Failed to update user info.");
+                    return;
+                }
+            } catch (error) {
+                console.error("Error updating user info:", error);
+                alert("Failed to update user info.");
+                return;
+            }
+        }
         setIsEditing(!isEditing);
     };
 
@@ -124,12 +178,12 @@ const Profile = () => {
                             {isEditing ? (
                                 <input
                                     type="tel"
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
+                                    value={telephone}
+                                    onChange={(e) => setTelephone(e.target.value)}
                                     className="text-lg text-left w-32 border-b-2 border-gray-300 focus:outline-none"
                                 />
                             ) : (
-                                <p className="text-lg text-left w-32">{phone}</p>
+                                <p className="text-lg text-left w-32">{telephone}</p>
                             )}
                         </div>
                     </div>

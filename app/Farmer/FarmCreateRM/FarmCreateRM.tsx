@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation';
 import { Dialog } from '@headlessui/react';
 import { resolve } from "path";
 import { generateTankId } from "@/services/rawMilkService"; // ✅ import ฟังก์ชันใหม่
+import { getUserInfo } from "@/services/authService";
+import { getFarmInfo } from "@/services/farmService";
+
 
 
 interface GeoData {
@@ -90,7 +93,32 @@ const FarmCreateRM = () => {
         step2: 'not-started',
         step3: 'not-started'
     });
-
+    useEffect(() => {
+        const fetchUserAndFarmInfo = async () => {
+            try {
+                const user = await getUserInfo();
+                const farm = await getFarmInfo();
+    
+                console.log("📌 User Info:", user);
+                console.log("📌 Farm Info:", farm);
+    
+                setFormData((prevData) => ({
+                    ...prevData,
+                    milkTankInfo: {
+                        ...prevData.milkTankInfo,
+                        farmName: farm?.farmName || "", // ใส่ farmName ด้วย
+                        personInCharge: `${user?.firstName || ""} ${user?.lastName || ""}`, // ใส่ชื่อ-นามสกุล user
+                    },
+                }));
+            } catch (error) {
+                console.error("❌ Error fetching user/farm info:", error);
+            }
+        };
+    
+        fetchUserAndFarmInfo();
+    }, []);
+    
+    
     const handleNextClick = () => {
         setShowShippingAddress(true);
         setStepStatus({

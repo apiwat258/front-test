@@ -23,18 +23,27 @@ export const fetchAllTrackingIds = async (): Promise<any[]> => {
         const data = await response.json();
         console.log("📡 API Response:", JSON.stringify(data, null, 2));
 
-        // ✅ ตรวจสอบว่ามี `trackingList` และเป็นอาร์เรย์
         if (!data.trackingList || !Array.isArray(data.trackingList)) {
             console.error("❌ Invalid API response format:", data);
             return [];
         }
 
-        return data.trackingList; // ✅ ส่งเฉพาะ Array กลับไป
+        // ✅ Clean Function
+        function cleanLotID(lotId: string) {
+            return lotId.replace(/\u0000/g, '').trim();
+        }
+
+        // ✅ Clean productLotId ก่อนส่งกลับ
+        return data.trackingList.map((item: any) => ({
+            ...item,
+            productLotId: cleanLotID(item.productLotId),
+        }));
     } catch (error) {
         console.error("❌ Error fetching tracking IDs:", error);
         return [];
     }
 };
+
 
 export const fetchLogisticsWaitingForPickup = async (): Promise<any[]> => {
     try {

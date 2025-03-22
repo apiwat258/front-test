@@ -61,8 +61,8 @@ const DeliveredRM = () => {
                             </div>
                             <div className="flex flex-col md:flex-row justify-between items-center w-full">
                                 <span className="text-xl md:text-2xl font-semibold">Person In Charge: <p className="inline font-normal">{item.milkTankInfo.personInCharge}</p></span>
-                                <Link href={`/Factory/DeliveredRM/Details?tankId=${item.milkTankInfo.tankId}`} className="text-lg md:text-xl underline italic cursor-pointer mt-2 md:mt-0">More info</Link>
-                            </div>
+                                <Link href={`/Factory/ToRecieve/Details?tankId=${item.milkTankInfo.tankId}`} className="text-lg md:text-xl underline italic cursor-pointer mt-2 md:mt-0">More info</Link>
+                                </div>
                             <Link href={`/Factory/Recieving?tankId=${item.milkTankInfo.tankId}`} className="bg-[#198754] text-white p-2 w-full rounded-xl hover:bg-[#3eb055] text-center">Recieve Now</Link>
                             </div>  
                     ))}

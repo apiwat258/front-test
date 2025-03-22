@@ -3,6 +3,9 @@ export const dynamic = 'force-dynamic';
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getUserInfo } from "@/services/authService";
+import { getFactoryInfo } from "@/services/factoryService";
+
 
 interface GeoData {
     id: number;
@@ -33,7 +36,63 @@ const Recieving = () => {
     const tankId = searchParams.get("tankId");
 
 
-
+    useEffect(() => {
+        const fetchInitialData = async () => {
+            let locationLink = "";
+    
+            try {
+                // STEP 1: ดึง Location จากเครื่อง
+                if (navigator.geolocation) {
+                    await new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                const { latitude, longitude } = position.coords;
+                                locationLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                                resolve(true);
+                            },
+                            (error) => {
+                                console.warn("❌ Failed to get geolocation:", error);
+                                resolve(false); // ปล่อยผ่าน error
+                            }
+                        );
+                    });
+                } else {
+                    console.warn("❌ Geolocation not supported");
+                }
+    
+                // STEP 2: ถ้า location ยังว่าง → fallback ไปใช้ของโรงงาน
+                if (!locationLink) {
+                    const factory = await getFactoryInfo();
+                    locationLink = factory?.location || "";
+                }
+    
+                // STEP 3: ดึง User info (ชื่อ)
+                const user = await getUserInfo();
+    
+                // STEP 4: เวลาปัจจุบัน
+                const now = new Date();
+                const isoString = now.toISOString().slice(0, 16);
+    
+                // STEP 5: Set formData
+                setFormData((prevData) => ({
+                    ...prevData,
+                    RecipientInfo: {
+                        ...prevData.RecipientInfo,
+                        personInCharge: `${user?.firstName || ""} ${user?.lastName || ""}`,
+                        pickUpTime: isoString,
+                        location: locationLink,
+                    },
+                }));
+    
+            } catch (err) {
+                console.error("❌ Error fetching initial data:", err);
+            }
+        };
+    
+        fetchInitialData();
+    }, []);
+    
+    
     useEffect(() => {
         fetch("/data/geography.json")
             .then((res) => res.json())

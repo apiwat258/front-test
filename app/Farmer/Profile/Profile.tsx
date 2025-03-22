@@ -3,8 +3,11 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { getUserInfo, updateUserInfo } from "../../../services/authService";
-import { logout } from '@/services/authService'; // ✅ Import ฟังก์ชัน Logout
+import { logout } from '@/services/authService'; 
+
+
 
 
 const Profile = () => {
@@ -20,6 +23,8 @@ const Profile = () => {
     const [password, setPassword] = useState("12345");
     const [email, setEmail] = useState("user@gmail.com");
     const [phone, setPhone] = useState("+0123456789");
+    const router = useRouter(); // <<< ตรงนี้ไม่มี!
+
     // ดึงข้อมูลฟาร์มและข้อมูลผู้ใช้เมื่อ component mount
     useEffect(() => {
         const fetchData = async () => {

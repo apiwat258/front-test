@@ -137,8 +137,8 @@ const fetchRetailersData = async (searchQuery: string) => {
 };
 
 const handleRetailerSearch = async (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchText = event.target.value.trim(); // ✅ ตัดช่องว่างซ้ายขวาออก
-    handleShippingAddressChange(index, event); // ✅ บันทึกค่าใน Local Storage
+    const searchText = event.target.value.trim();
+    handleShippingAddressChange(index, event);
 
     if (searchText.length < 2) {
         setFilteredRetailers([]);
@@ -148,20 +148,27 @@ const handleRetailerSearch = async (index: number, event: React.ChangeEvent<HTML
 
     try {
         const data = await fetchRetailers(searchText);
-        console.log("📡 Filtered Retailers from API:", JSON.stringify(data, null, 2)); // ✅ ตรวจสอบว่าข้อมูลถูกต้อง
 
-        if (!Array.isArray(data) || data.length === 0) {
-            setFilteredRetailers([]);
-            setShowRetailerDropdown(false);
-            return;
-        }
+        // 🟢 ใช้ฟังก์ชันกรอง
+        const filtered = filterSelectedRetailers(data, index);
 
-        setFilteredRetailers(data);
-        setShowRetailerDropdown(true);
+        setFilteredRetailers(filtered);
+        setShowRetailerDropdown(filtered.length > 0);
     } catch (error) {
         console.error("❌ Error fetching retailers:", error);
     }
 };
+
+const filterSelectedRetailers = (data: any[], currentIndex: number) => {
+    const selectedRetailerIds = productLotForm.shippingAddresses
+        .filter((_, idx) => idx !== currentIndex) // ยกเว้นตัวเอง
+        .map(address => address.retailerId);
+
+    // กรองออก
+    return data.filter(retailer => !selectedRetailerIds.includes(retailer.retailer_id));
+};
+
+
 
 
 const handleSelectRetailer = async (index: number, retailer: any) => {
@@ -181,13 +188,15 @@ const handleSelectRetailer = async (index: number, retailer: any) => {
             subDistrict: retailer.subdistrict,
             postalCode: retailer.post_code,
             location: retailer.location_link,
-            usernames: [], // ✅ รีเซ็ต usernames ก่อนดึงใหม่
+            firstName: "", // 🟢 เคลียร์ First Name
+            lastName: "",  // 🟢 เคลียร์ Last Name
+            usernames: [], // 🟢 รีเซ็ต usernames
         };
         return { ...prev, shippingAddresses: newShippingAddresses };
     });
 
     try {
-        // ✅ ดึง Usernames ทันทีเมื่อเลือก Retailer
+        // ✅ ดึง Usernames ใหม่
         const usernames = await fetchRetailerUsernames(retailer.retailer_id);
         setFormData(prev => {
             const newShippingAddresses = [...prev.shippingAddresses];
@@ -205,25 +214,29 @@ const handleSelectRetailer = async (index: number, retailer: any) => {
 
 
 
+
 // ✅ ค้นหา Username
 const handleUsernameSearch = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
     const searchText = event.target.value.trim();
-    handleShippingAddressChange(index, event); // ✅ บันทึกค่าที่พิมพ์ลง Local Storage
+    handleShippingAddressChange(index, event); // ✅ เซฟลง local storage
 
-    if (searchText.length < 2) {
+    const allUsernames = productLotForm.shippingAddresses[index]?.usernames || [];
+
+    if (searchText.length < 2 || allUsernames.length === 0) {
+        // ❗ ถ้ายังไม่มี usernames หรือยังไม่เลือก retailer
         setFilteredUsernames([]);
         setShowUsernameDropdown(false);
         return;
     }
 
-    // ✅ ใช้ usernames ของ Shipping Address ที่เลือก
-    const filtered = productLotForm.shippingAddresses[index].usernames.filter(user =>
+    const filtered = allUsernames.filter(user =>
         user.first_name.toLowerCase().includes(searchText) || user.last_name.toLowerCase().includes(searchText)
     );
 
     setFilteredUsernames(filtered);
     setShowUsernameDropdown(true);
 };
+
 
 
 // ✅ อัปเดตค่าหลังเลือก Username
@@ -304,8 +317,9 @@ const handleSelectUsername = (index: number, user: any) => {
         }));
     
         if (!searchText) {
-            setFilteredProducts([]);
-            setShowDropdown(false);
+            // ✅ ถ้าไม่มี searchText → แสดงสินค้าทั้งหมด
+            setFilteredProducts(products);
+            setShowDropdown(true);
             return;
         }
     
@@ -315,6 +329,8 @@ const handleSelectUsername = (index: number, user: any) => {
         setFilteredProducts(filtered);
         setShowDropdown(filtered.length > 0);
     };
+    
+    
 
     const handleSelectProduct = (product: any) => {
         setFormData(prev => ({
@@ -545,7 +561,7 @@ const handleSelectUsername = (index: number, user: any) => {
                             province: retailerData.province,
                             district: retailerData.district,
                             subDistrict: retailerData.subdistrict,
-                            postalCode: retailerData.post_code,
+                            postalCode: updatedAddresses[index].postalCode || retailerData.post_code, // ✅ ถ้า user กรอกไว้แล้ว ไม่ overwrite
                             location: retailerData.location_link,
                         };
                         return { ...prev, shippingAddresses: updatedAddresses };
@@ -870,6 +886,11 @@ const handleSelectUsername = (index: number, user: any) => {
                             className="border rounded-full p-3 w-full"
                             value={productLotForm.GeneralInfo.productName}
                             onChange={handleProductSearch} // ✅ ใช้ handleProductSearch ที่เรียก handleFormDataChange
+                            onFocus={() => {
+                                // ✅ เมื่อ focus → โชว์ dropdown ทั้งหมดเลย
+                                setFilteredProducts(products); 
+                                setShowDropdown(true); 
+                            }}
                         />
                         {showDropdown && (
                             <ul className="absolute w-full bg-white border rounded-md shadow-lg max-h-40 overflow-y-auto">
@@ -1280,7 +1301,21 @@ const handleSelectUsername = (index: number, user: any) => {
                             <div className="flex flex-col w-full gap-5">
                                 <label htmlFor={`companyName-${index}`} className="font-semibold">Company Name</label>
                                 <input type="text" name="companyName" id={`companyName-${index}`} className="border p-3 rounded-full" placeholder="Enter your company name"
-                                    value={address.companyName}  onChange={(e) => handleRetailerSearch(index, e)} />
+                                    value={address.companyName}  onChange={(e) => handleRetailerSearch(index, e)} onFocus={async () => {
+                                        let data = retailers;
+                                    
+                                        if (retailers.length === 0) {
+                                            const fetched = await fetchRetailers(""); // ดึงทั้งหมด
+                                            setRetailers(fetched);
+                                            data = fetched;
+                                        }
+                                    
+                                        // 🟢 กรองก่อนโชว์
+                                        const filtered = filterSelectedRetailers(data, index);
+                                        setFilteredRetailers(filtered);
+                                        setShowRetailerDropdown(filtered.length > 0);
+                                    }}
+                                    />
 
                                 {/* ✅ Dropdown แสดงรายการ */}
     {showRetailerDropdown && (
@@ -1309,6 +1344,13 @@ const handleSelectUsername = (index: number, user: any) => {
             placeholder="Enter first name"
             value={address.firstName} 
             onChange={(e) => handleUsernameSearch(index, e)}
+            onFocus={() => {
+                const allUsernames = productLotForm.shippingAddresses[index]?.usernames || [];
+                    if (allUsernames.length > 0) {
+                    setFilteredUsernames(allUsernames);  // ✅ ใช้ข้อมูล usernames ที่โหลดไว้แล้ว
+                    setShowUsernameDropdown(true);
+                }
+            }}
         />
         
         {/* Dropdown Results */}

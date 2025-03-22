@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from "react";
 import { MapProvider } from "@/providers/map-provider";
 import { MapComponent } from "@/components/map";
-import { updateUserRole } from "@/services/authService"; // ✅ ใช้ updateUserRole
+import { updateUserRole, getUserInfo } from "@/services/authService"; // ✅ ใช้ updateUserRole
 import { getFactoryInfo, updateFactoryInfo, createFactory } from "@/services/factoryService";
 import { getUserCertifications, uploadCertificateAndCheck, handleDeleteCertificate, deleteCertificate, storeCertification } from "@/services/certificateService";
 import { handleFileChange } from "@/services/fileService";
@@ -40,6 +40,8 @@ const FactoryGeneral = () => {
     const [selectedSubDistrict, setSelectedSubDistrict] = useState<string>("");
     const [isCreating, setIsCreating] = useState<boolean>(false);
     const [certificatesToDelete, setCertificatesToDelete] = useState<string[]>([]);
+    const [username, setUsername] = useState<string>("");
+
 
     // ✅ ตรวจสอบว่าผู้ใช้มีโรงงานหรือยัง
 useEffect(() => {
@@ -48,8 +50,15 @@ useEffect(() => {
             const data = await getFactoryInfo();
             console.log("📌 Factory Data:", data); // ✅ ตรวจสอบว่ามีข้อมูลโรงงานหรือไม่
 
+            const user = await getUserInfo();
+          console.log("📌 User Info:", user);
+
             if (data) {
-                setFactoryData(data);
+              setFactoryData({
+                ...data,
+                fName: user?.firstName || "",  // เติมจาก user info
+                lName: user?.lastName || "",
+              });
                 setSelectedProvince(data.province || "");
                 setSelectedDistrict(data.district || "");
                 setSelectedSubDistrict(data.subdistrict || "");
@@ -57,6 +66,10 @@ useEffect(() => {
                 setIsEditable(false);
             } else {
                 console.warn("🚨 No factory found → Switching to Create Mode");
+                setFactoryData({
+                  fName: user?.firstName || "",
+                  lName: user?.lastName || "",
+                });
                 setIsCreating(true);
                 setIsEditable(true);
             }
@@ -80,6 +93,26 @@ useEffect(() => {
     fetchCertificates();
 }, []);
 
+useEffect(() => {
+  const fetchUserInfo = async () => {
+    try {
+      const userInfo = await getUserInfo();
+      console.log("📌 [DEBUG] User Info:", userInfo);
+
+      if (userInfo) {
+        setFactoryData((prevData: any) => ({
+          ...prevData,
+          fName: userInfo.firstName || "",
+          lName: userInfo.lastName || "",
+        }));
+      }
+    } catch (error) {
+      console.error("❌ Error fetching user info:", error);
+    }
+  };
+
+  fetchUserInfo();
+}, [isCreating]);
 useEffect(() => {
     console.log("🔄 Updated isCreating:", isCreating);
     console.log("🔄 Updated isEditable:", isEditable);

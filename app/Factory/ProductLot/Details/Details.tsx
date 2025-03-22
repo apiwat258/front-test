@@ -12,7 +12,7 @@ type ShippingAddress = {
     lastName: string;
     email: string;
     areaCode: string;
-    phoneNumber: string;
+    telephone: string;
     address: string;
     province: string;
     district: string;
@@ -282,7 +282,7 @@ const CheckDetails = () => {
                                             </div>
                                             <div className="flex justify-between">
                                                 <p className="font-semibold">Phone Number:</p>
-                                                <p>{address.qrCodeData?.retailer?.areaCode} {address.qrCodeData?.retailer?.phoneNumber}</p>
+                                                <p>{address.qrCodeData?.retailer?.areaCode} {address.qrCodeData?.retailer?.telephone}</p>
                                             </div>
                                             <div className="flex justify-between">
                                                 <p className="font-semibold">Address:</p>

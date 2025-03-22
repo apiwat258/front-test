@@ -27,7 +27,7 @@ const ProductLot = () => {
     }, []);  
 
     return (
-        <div className="flex flex-col w-full h-full min-h-screen items-center justify-center pt-20">
+        <div className="flex flex-col w-full h-full min-h-screen items-center ">
             <div className="flex flex-col justify-center items-center w-full h-[40vh]">
                 <img src="/images/FarmLandscape2.webp" alt="Farm" className="w-full h-full relative object-cover" />
             </div>

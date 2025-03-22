@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from "react";
 import { MapProvider } from "@/providers/map-provider";
 import { MapComponent } from "@/components/map";
-import { updateUserRole } from "@/services/authService"; // ✅ ใช้ updateUserRole
+import { updateUserRole, getUserInfo } from "@/services/authService"; // ✅ ใช้ updateUserRole
 import { getLogisticsInfo, updateLogisticsInfo, createLogistics } from "@/services/logisticsService"; // ✅ เปลี่ยนจากโรงงานเป็นโลจิสติกส์
 import { getUserCertifications, uploadCertificateAndCheck, handleDeleteCertificate, deleteCertificate, storeCertification } from "@/services/certificateService";
 import { handleFileChange } from "@/services/fileService";
@@ -40,6 +40,8 @@ const GeneralInfo = () => {
     const [selectedSubDistrict, setSelectedSubDistrict] = useState<string>("");
     const [isCreating, setIsCreating] = useState<boolean>(false);
     const [certificatesToDelete, setCertificatesToDelete] = useState<string[]>([]);
+    const [username, setUsername] = useState<string>("");
+
 
     // ✅ ตรวจสอบว่าผู้ใช้มีโลจิสติกส์หรือยัง
 useEffect(() => {
@@ -47,9 +49,15 @@ useEffect(() => {
         try {
             const data = await getLogisticsInfo();
             console.log("📌 Logistics Data:", data); // ✅ ตรวจสอบว่ามีข้อมูลโลจิสติกส์หรือไม่
+            const user = await getUserInfo();
+          console.log("📌 User Info:", user);
 
             if (data) {
-                setLogisticsData(data);
+              setLogisticsData({
+                ...data,
+                fName: user?.firstName || "",  // เติมจาก user info
+                lName: user?.lastName || "",
+              });
                 setSelectedProvince(data.province || "");
                 setSelectedDistrict(data.district || "");
                 setSelectedSubDistrict(data.subdistrict || "");
@@ -57,6 +65,10 @@ useEffect(() => {
                 setIsEditable(false);
             } else {
                 console.warn("🚨 No logistics company found → Switching to Create Mode");
+                setLogisticsData({
+                  fName: user?.firstName || "",
+                  lName: user?.lastName || "",
+                });
                 setIsCreating(true);
                 setIsEditable(true);
             }
@@ -66,7 +78,7 @@ useEffect(() => {
             setIsEditable(true);
         }
     };
-
+  
     const fetchCertificates = async () => {
         try {
             const data = await getUserCertifications();
@@ -79,6 +91,27 @@ useEffect(() => {
     fetchLogisticsData();
     fetchCertificates();
 }, []);
+
+useEffect(() => {
+  const fetchUserInfo = async () => {
+    try {
+      const userInfo = await getUserInfo();
+      console.log("📌 [DEBUG] User Info:", userInfo);
+
+      if (userInfo) {
+        setLogisticsData((prevData: any) => ({
+          ...prevData,
+          fName: userInfo.firstName || "",
+          lName: userInfo.lastName || "",
+        }));
+      }
+    } catch (error) {
+      console.error("❌ Error fetching user info:", error);
+    }
+  };
+
+  fetchUserInfo();
+}, [isCreating]); // เพิ่ม isCreating เพื่อให้มัน re-fetch หลังสร้าง Farm เสร็จ
 
 useEffect(() => {
     console.log("🔄 Updated isCreating:", isCreating);
