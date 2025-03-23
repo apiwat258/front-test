@@ -1,4 +1,5 @@
 import API_BASE_URL from './apiConfig';
+import axios from 'axios';
 
 const API_URL = `${API_BASE_URL}/product-lots/`;
 
@@ -112,3 +113,17 @@ export const fetchProductLotDetails = async (lotId: string): Promise<any> => {
         return null;
     }
 };
+
+export const getAllFactoryProductLots = async (token: string) => {
+    try {
+      const response = await axios.get(`${API_URL}search-list`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("❌ Failed to fetch factory product lots search list:", error);
+      throw error;
+    }
+  };
+  
+  

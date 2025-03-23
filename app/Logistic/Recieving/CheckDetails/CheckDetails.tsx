@@ -179,89 +179,107 @@ const CheckDetails = () => {
 
             {data.length > 0 && data.map((item, index) => (
                 <div key={index} className="flex flex-col md:flex-row justify-between gap-10 w-full p-4 md:p-14">
-                    {/* General Info */}
-                    <div className="flex flex-col gap-4 md:gap-10 w-full h-fit md:w-1/2 bg-white border p-4 md:p-10 rounded-3xl shadow-lg text-base md:text-xl">
-                    <h1 className="text-xl md:text-3xl font-bold text-center">General Info</h1>
-                    <div className="flex flex-col space-y-2 gap-3">
-                        <div className="flex justify-between">
-                        <p className="font-semibold">Person In Charge:</p>
-                        <p>{item.checkpoints?.before[0]?.personInCharge || "N/A"}</p>
-                        </div>
-                        <div className="flex justify-between">
-                        <p className="font-semibold">Location:</p>
-                        <p>{item.checkpoints?.before[0]?.receiverInfo?.location || "N/A"}</p>
-                        </div>
-                        <div className="flex justify-between">
-                        <p className="font-semibold">Pick Up Time:</p>
-                        <p>{item.checkpoints?.before[0]?.pickupTime ? formatDateTime(item.checkpoints.before[0].pickupTime) : "N/A"}</p>
-                        </div>
-                    </div>
+                     {/* General Info */}
+        <div className="flex flex-col gap-4 md:gap-10 w-full h-fit md:w-1/2 bg-white border p-4 md:p-10 rounded-3xl shadow-lg text-base md:text-xl">
+            <h1 className="text-xl md:text-3xl font-bold text-center">General Info</h1>
+            <div className="flex flex-col space-y-2 gap-3">
+                <div className="flex justify-between">
+                    <p className="font-semibold">Person In Charge:</p>
+                    {item.checkpoints[selectedStatus]?.length > 0 ? (
+                        <p>{item.checkpoints[selectedStatus][0].firstName} {item.checkpoints[selectedStatus][0].lastName}</p>
+                    ) : (
+                        <p>N/A</p>
+                    )}
+                </div>
+
+                <div className="flex justify-between">
+                    <p className="font-semibold">Location:</p>
+                    {item.checkpoints[selectedStatus]?.length > 0 ? (
+                        <p>{item.checkpoints[selectedStatus][0].location}</p>
+                    ) : (
+                        <p>N/A</p>
+                    )}
+                </div>
+
+                <div className="flex justify-between">
+                    <p className="font-semibold">Pick Up Time:</p>
+                    {item.checkpoints[selectedStatus]?.length > 0 ? (
+                        <p>{formatDateTime(item.checkpoints[selectedStatus][0].recieveTime)}</p>
+                    ) : (
+                        <p>N/A</p>
+                    )}
+                </div>
+            </div>
+  
                     </div>
 
                     {/* Product Detail */}
-                    {item.ProductDetail && (
-                        <div className="flex flex-col gap-4 md:gap-10 w-full md:w-1/2 border bg-white p-4 md:p-10 rounded-3xl shadow-lg text-base md:text-xl">
-                            <h1 className="text-xl md:text-3xl font-bold text-center">Product Detail</h1>
-                            <div className="flex flex-col space-y-2 gap-3">
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Pickup Time:</p>
-                                    <p>{formatDateTime(item.ProductDetail.recieveTime)}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Deliver Time:</p>
-                                    <p>{formatDateTime(item.ProductDetail.deliverTime)}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Quantity:</p>
-                                    <p>{item.ProductDetail.quantity} {item.ProductDetail.quantityUnit}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Temperature:</p>
-                                    <p>{item.ProductDetail.temp} {item.ProductDetail.tempUnit}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Company Name:</p>
-                                    <p>{item?.ProductDetail?.companyName}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Name:</p>
-                                    <p>{item?.ProductDetail?.firstName} {item?.ProductDetail?.lastName}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Email:</p>
-                                    <p>{item?.ProductDetail?.email}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Phone:</p>
-                                    <p>{item?.ProductDetail?.areaCode} {item?.ProductDetail?.phoneNumber}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Address:</p>
-                                    <p>{item?.ProductDetail?.address}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Province:</p>
-                                    <p>{item?.ProductDetail?.province}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">District:</p>
-                                    <p>{item?.ProductDetail?.district}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Sub-District:</p>
-                                    <p>{item?.ProductDetail?.subDistrict}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Zip Code:</p>
-                                    <p>{item?.ProductDetail?.postalCode}</p>
-                                </div>
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Location:</p>
-                                    <p>{item?.ProductDetail?.location}</p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                    {item.checkpoints[selectedStatus]?.length > 0 && (
+    <div className="flex flex-col gap-4 md:gap-10 w-full md:w-1/2 border bg-white p-4 md:p-10 rounded-3xl shadow-lg text-base md:text-xl">
+        <h1 className="text-xl md:text-3xl font-bold text-center">Product Detail</h1>
+        {item.checkpoints[selectedStatus].map((detail: any, i: number) => (
+            <div key={i} className="flex flex-col space-y-2 gap-3">
+                <div className="flex justify-between">
+                    <p className="font-semibold">Pickup Time:</p>
+                    <p>{formatDateTime(detail.recieveTime)}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Deliver Time:</p>
+                    <p>{formatDateTime(detail.deliverTime)}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Quantity:</p>
+                    <p>{detail.quantity} {detail.quantityUnit}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Temperature:</p>
+                    <p>{detail.temp} {detail.tempUnit}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Company Name:</p>
+                    <p>{detail.companyName}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Name:</p>
+                    <p>{detail.firstName} {detail.lastName}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Email:</p>
+                    <p>{detail.email}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Phone:</p>
+                    <p>{detail.areaCode} {detail.phoneNumber}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Address:</p>
+                    <p>{detail.address}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Province:</p>
+                    <p>{detail.province}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">District:</p>
+                    <p>{detail.district}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Sub-District:</p>
+                    <p>{detail.subDistrict}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Zip Code:</p>
+                    <p>{detail.postalCode}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p className="font-semibold">Location:</p>
+                    <p>{detail.location}</p>
+                </div>
+            </div>
+        ))}
+    </div>
+)}
+
                 </div>
             ))}
             <button type="button" onClick={handleSubmit} className="text-xl bg-emerald-400 p-3 mb-5 self-end mx-14 rounded-3xl text-white font-semibold">Submit</button>
