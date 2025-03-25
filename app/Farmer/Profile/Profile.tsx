@@ -11,7 +11,7 @@ import { logout } from '@/services/authService';
 
 
 const Profile = () => {
-    const [profileImage, setProfileImage] = useState("/images/ProfileDefault.jpg");
+    const [profileImage, setProfileImage] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -19,10 +19,10 @@ const Profile = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [role, setRole] = useState("Farmer");
     const [showPassword, setShowPassword] = useState(false);
-    const [username, setUsername] = useState("user");
-    const [password, setPassword] = useState("12345");
-    const [email, setEmail] = useState("user@gmail.com");
-    const [phone, setPhone] = useState("+0123456789");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
     const router = useRouter(); // <<< ตรงนี้ไม่มี!
 
     // ดึงข้อมูลฟาร์มและข้อมูลผู้ใช้เมื่อ component mount

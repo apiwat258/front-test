@@ -8,17 +8,17 @@ import { getUserInfo, updateUserInfo, logout } from "../../../services/authServi
 
 
 const Profile = () => {
-    const [profileImage, setProfileImage] = useState("/images/ProfileDefault.jpg");
+    const [profileImage, setProfileImage] = useState("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [username, setUsername] = useState("user");
-    const [password, setPassword] = useState("12345");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const [role, setRole] = useState("Factory");
-    const [email, setEmail] = useState("user@gmail.com");
+    const [email, setEmail] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [telephone, setTelephone] = useState("+1234567890");
+    const [telephone, setTelephone] = useState("");
 
     const router = useRouter();
 

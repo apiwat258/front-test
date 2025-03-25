@@ -8,16 +8,16 @@ import { useRouter } from 'next/navigation';
 import { getUserInfo, updateUserInfo, logout } from "../../../services/authService"; 
 
 const Profile = () => {
-    const [profileImage, setProfileImage] = useState("/images/ProfileDefault.jpg");
+    const [profileImage, setProfileImage] = useState("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [telephone, setTelephone] = useState("+1234567890");
+    const [telephone, setTelephone] = useState("");
     const [isEditing, setIsEditing] = useState(false);
-    const [username, setUsername] = useState("user");
-    const [password, setPassword] = useState("12345");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const [role, setRole] = useState("Logistic");
-    const [email, setEmail] = useState("user@gmail.com");
+    const [email, setEmail] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
 
@@ -31,7 +31,7 @@ const Profile = () => {
                     setFirstName(userInfo.firstName);
                     setLastName(userInfo.lastName);
                     setUsername(`${userInfo.firstName} ${userInfo.lastName}`); // โชว์รวม
-                    setProfileImage(userInfo.profileImage || "/images/profile2.jpg");
+                    setProfileImage(userInfo.profileImage || "");
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
