@@ -711,7 +711,7 @@ const submitAndNavigate = () => {
             : handleNextStatus
     }
 >
-    {LogisRecieve[0].GeneralInfo.recieveStatus === "After" ? "Submit & CheckDetails" : "Next"}
+    {LogisRecieve[0].GeneralInfo.recieveStatus === "After" ? "Next" : "Next"}
 </button>
 
 
