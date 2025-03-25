@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { getUserInfo, updateUserInfo, logout } from "../../../services/authService"; 
 
 const Profile = () => {
-    const [profileImage, setProfileImage] = useState("");
+    const [profileImage, setProfileImage] = useState("/images/ProfileDefault.jpg");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -31,7 +31,7 @@ const Profile = () => {
                     setFirstName(userInfo.firstName);
                     setLastName(userInfo.lastName);
                     setUsername(`${userInfo.firstName} ${userInfo.lastName}`); // โชว์รวม
-                    setProfileImage(userInfo.profileImage || "");
+                    setProfileImage(userInfo.profileImage || "/images/ProfileDefault.jpg");
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);

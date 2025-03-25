@@ -11,7 +11,7 @@ import { logout } from '@/services/authService';
 
 
 const Profile = () => {
-    const [profileImage, setProfileImage] = useState("");
+    const [profileImage, setProfileImage] = useState("/images/ProfileDefault.jpg");
     const [isEditing, setIsEditing] = useState(false);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -35,7 +35,7 @@ const Profile = () => {
                     setFirstName(userInfo.firstName);
                     setLastName(userInfo.lastName);
                     setTelephone(userInfo.telephone);
-                    setProfileImage(userInfo.profileImage || "/images/profile2.jpg"); // ✅ ใช้รูปจาก backend ถ้ามี
+                    setProfileImage(userInfo.profileImage || "/images/ProfileDefault.jpg"); // ✅ ใช้รูปจาก backend ถ้ามี
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);

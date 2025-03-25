@@ -9,7 +9,7 @@ import { getUserInfo, updateUserInfo, logout } from "../../../services/authServi
 
 
 const Profile = () => {
-    const [profileImage, setProfileImage] = useState("");
+    const [profileImage, setProfileImage] = useState("/images/ProfileDefault.jpg");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [username, setUsername] = useState("");
@@ -32,7 +32,7 @@ const Profile = () => {
                     setFirstName(userInfo.firstName);
                     setLastName(userInfo.lastName);
                     setUsername(`${userInfo.firstName} ${userInfo.lastName}`); // โชว์รวม
-                    setProfileImage(userInfo.profileImage || "");
+                    setProfileImage(userInfo.profileImage || "/images/ProfileDefault.jpg");
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
