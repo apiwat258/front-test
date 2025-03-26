@@ -68,7 +68,6 @@ const ProductLot = () => {
                                 <div className="flex flex-col md:flex-row justify-between items-center w-full h-1/2">
                                     <span className="text-xl md:text-2xl font-semibold">Person In Charge: <p className="inline font-normal">{item.personInCharge}</p></span>
 
-                                    ✅ ส่ง lotId ไปใน URL
                                     <Link href={`/Factory/ProductLot/Details?lotId=${item.productLotNo}`} className="text-lg md:text-xl underline italic cursor-pointer mt-2 md:mt-0">
                                         More info
                                     </Link>
