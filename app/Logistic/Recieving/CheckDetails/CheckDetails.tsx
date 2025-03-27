@@ -19,6 +19,7 @@ const CheckDetails = () => {
                 setData(parsedData);
     
                 console.log("✅ Loaded from LocalStorage:", parsedData);
+                localStorage.clear();
             } catch (error) {
                 console.error("❌ Error parsing LocalStorage data:", error);
             }

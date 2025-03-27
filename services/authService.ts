@@ -80,11 +80,11 @@ export const getRedirectUrl = (userRole: string) => {
         case "farmer":
             return "/Farmer/Profile";
         case "factory":
-            return "/FactoryDashboard";
+            return "/Factory/Profile";
         case "logistics":
-            return "/LogisticsDashboard";
+            return "/Logistic/Profile";
         case "retailer":
-            return "/RetailerDashboard";
+            return "/Retailer/Profile";
         case null:
             return "/select-role"; // ✅ ถ้ายังไม่มี Role ให้เลือก Role ก่อน
         default:
