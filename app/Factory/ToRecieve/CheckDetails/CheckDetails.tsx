@@ -45,7 +45,7 @@ const CheckDetails = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const storedData = localStorage.getItem("recievedForm");
+        const storedData = localStorage.getItem("receivedForm");
         if (storedData) {
             setData(JSON.parse(storedData));
         }

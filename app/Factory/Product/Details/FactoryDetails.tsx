@@ -92,8 +92,8 @@ const FactoryDetails = () => {
                                 <p>{data?.Nutrition?.totalFat}</p>
                             </div>
                             <div className="flex justify-between">
-                                <p className="font-semibold">Colestoral:</p>
-                                <p>{data?.Nutrition?.colestoral}</p>
+                                <p className="font-semibold">cholesterol:</p>
+                                <p>{data?.Nutrition?.cholesterol}</p>
                             </div>
                             <div className="flex justify-between">
                                 <p className="font-semibold">Sodium:</p>

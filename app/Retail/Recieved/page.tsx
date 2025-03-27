@@ -12,7 +12,7 @@ interface TrackingItem {
     status: number;
 }
 
-const Recieve = () => {
+const receive = () => {
     const [trackingData, setTrackingData] = useState<TrackingItem[]>([]);
 
     useEffect(() => {
@@ -69,7 +69,7 @@ const Recieve = () => {
 
                                     {/* More Info Button - ส่ง trackingId + productLotId */}
                                     <Link
-                                        href={`/Retail/Recieved/Details?trackingId=${item.trackingId}&lotId=${item.productLotId}`}
+                                        href={`/Retail/received/Details?trackingId=${item.trackingId}&lotId=${item.productLotId}`}
                                         className="text-lg md:text-xl underline italic cursor-pointer mt-2 md:mt-0"
                                     >
                                         More info
@@ -84,4 +84,4 @@ const Recieve = () => {
     );
 };
 
-export default Recieve;
+export default receive;

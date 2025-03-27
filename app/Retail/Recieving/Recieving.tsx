@@ -114,7 +114,7 @@ useEffect(() => {
 }, []);
 
 // ✅ ตั้งค่าเริ่มต้นของฟอร์ม และเพิ่ม trackingId เข้าไป
-const [recievedForm, setFormData] = useState({
+const [receivedForm, setFormData] = useState({
     trackingId: storedTrackingId || "", // ✅ เพิ่ม trackingId เข้าไป
     RecipientInfo: {
         personInCharge: "",
@@ -150,7 +150,7 @@ const [recievedForm, setFormData] = useState({
 // ✅ โหลดข้อมูลจาก Local Storage เมื่อหน้าเว็บโหลด
 useEffect(() => {
     if (typeof window !== "undefined") {
-        const savedData = localStorage.getItem("recievedForm");
+        const savedData = localStorage.getItem("receivedForm");
         if (savedData) {
             const parsedData = JSON.parse(savedData);
             setFormData({
@@ -161,20 +161,20 @@ useEffect(() => {
     }
 }, [storedTrackingId]);
 
-// ✅ บันทึกข้อมูลลง Local Storage ทุกครั้งที่ recievedForm เปลี่ยน
+// ✅ บันทึกข้อมูลลง Local Storage ทุกครั้งที่ receivedForm เปลี่ยน
 useEffect(() => {
     if (typeof window !== "undefined") {
-        localStorage.setItem("recievedForm", JSON.stringify(recievedForm));
+        localStorage.setItem("receivedForm", JSON.stringify(receivedForm));
     }
-}, [recievedForm]);
+}, [receivedForm]);
 
 
-    // ✅ บันทึกข้อมูลลง localStorage ทุกครั้งที่ recieveForm เปลี่ยน
+    // ✅ บันทึกข้อมูลลง localStorage ทุกครั้งที่ receiveForm เปลี่ยน
     useEffect(() => {
         if (typeof window !== "undefined") {
-            localStorage.setItem("recievedForm", JSON.stringify(recievedForm));
+            localStorage.setItem("receivedForm", JSON.stringify(receivedForm));
         }
-    }, [recievedForm]);
+    }, [receivedForm]);
 
     // ✅ ฟังก์ชัน handleFormDataChange รองรับ text, select และ checkbox
     const handleFormDataChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -229,8 +229,8 @@ useEffect(() => {
     // ✅ ฟังก์ชัน Submit → บันทึกข้อมูลลง localStorage
     const saveToLocalStorage = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        localStorage.setItem("recievedForm", JSON.stringify(recievedForm));
-        console.log(recievedForm);
+        localStorage.setItem("receivedForm", JSON.stringify(receivedForm));
+        console.log(receivedForm);
     };
     // end save form Data
 
@@ -303,20 +303,20 @@ useEffect(() => {
                         <label htmlFor="personInCharge" className="font-semibold">Person In Charge</label>
                         <input type="text" name="RecipientInfo.personInCharge" id="personInCharge"
                             placeholder="Enter name of person in charge" className="border rounded-full p-3 w-full"
-                            value={recievedForm.RecipientInfo.personInCharge} onChange={handleFormDataChange} />
+                            value={receivedForm.RecipientInfo.personInCharge} onChange={handleFormDataChange} />
                     </div>
                     {/* Location */}
                     <div className="flex flex-col w-full items-start gap-3">
                         <label htmlFor="location" className="font-semibold">Location</label>
                         <input type="text" id="location"
                             placeholder="Enter location" className="border rounded-full p-3 w-full"
-                            name="RecipientInfo.location" value={recievedForm.RecipientInfo.location} onChange={handleFormDataChange} />
+                            name="RecipientInfo.location" value={receivedForm.RecipientInfo.location} onChange={handleFormDataChange} />
                     </div>
                     {/* Pick up time */}
                     <div className="flex flex-col w-full items-start gap-3">
                         <label htmlFor="pickUpTime" className="font-semibold">Pick up time</label>
                         <input type="datetime-local" id="pickUpTime" placeholder="Pick up date time." className="border rounded-full p-3 w-full"
-                            name="RecipientInfo.pickUpTime" value={recievedForm.RecipientInfo.pickUpTime} onChange={handleFormDataChange} />
+                            name="RecipientInfo.pickUpTime" value={receivedForm.RecipientInfo.pickUpTime} onChange={handleFormDataChange} />
                     </div>
 
                     <button
@@ -340,9 +340,9 @@ useEffect(() => {
                                 <div className="flex gap-3 w-full">
                                     <input type="number" name="Quantity.quantity" id="quantity"
                                         className="border rounded-full p-3 w-4/5" placeholder="0.00" step="0.01"
-                                        value={recievedForm.Quantity.quantity} onChange={handleFormDataChange} />
+                                        value={receivedForm.Quantity.quantity} onChange={handleFormDataChange} />
                                     <select name="Quantity.quantityUnit" id="quantityUnit" className="border rounded-full p-3 w-1/5 font-semibold"
-                                        value={recievedForm.Quantity.quantityUnit} onChange={handleFormDataChange}>
+                                        value={receivedForm.Quantity.quantityUnit} onChange={handleFormDataChange}>
                                         <option value="Ton">Crate</option>
                                         <option value="Liter">Box</option>
                                     </select>
@@ -353,9 +353,9 @@ useEffect(() => {
                                 <label htmlFor="temp" className="font-semibold">Temperature</label>
                                 <div className="flex w-full items-start gap-3">
                                     <input type="number" name="Quantity.temp" id="temp" className="p-3 rounded-full borcder w-4/5" placeholder="0.00" step="0.01"
-                                        value={recievedForm.Quantity.temp} onChange={handleFormDataChange} />
+                                        value={receivedForm.Quantity.temp} onChange={handleFormDataChange} />
                                     <select name="Quantity.tempUnit" id="tempUnit" className="border rounded-full p-3 w-1/5 font-semibold"
-                                        value={recievedForm.Quantity.tempUnit} onChange={handleFormDataChange}>
+                                        value={receivedForm.Quantity.tempUnit} onChange={handleFormDataChange}>
                                         <option value="Celcius">°C</option>
                                         <option value="Farenheit">°F</option>
                                     </select>
@@ -366,7 +366,7 @@ useEffect(() => {
                         <div className="flex flex-col w-full items-start gap-3">
                             <label htmlFor="pH" className="font-semibold">pH of Milk</label>
                             <input type="number" name="Quantity.pH" id="pH" className="p-3 border rounded-full w-full" placeholder="0.00" step="0.01"
-                                value={recievedForm.Quantity.pH} onChange={handleFormDataChange} />
+                                value={receivedForm.Quantity.pH} onChange={handleFormDataChange} />
                         </div>
                         {/* Fat + Protein */}
                         <div className="flex w-full items-start gap-3">
@@ -374,13 +374,13 @@ useEffect(() => {
                             <div className="flex flex-col w-1/2 items-start gap-3">
                                 <label htmlFor="fat" className="font-semibold">Fat (%)</label>
                                 <input type="number" name="Quantity.fat" id="fat" className="p-3 border rounded-full w-full" placeholder="0.00%" step="0.01"
-                                    value={recievedForm.Quantity.fat} onChange={handleFormDataChange} />
+                                    value={receivedForm.Quantity.fat} onChange={handleFormDataChange} />
                             </div>
                             {/* Protein */}
                             <div className="flex flex-col w-1/2 items-start gap-3">
                                 <label htmlFor="protein" className="font-semibold">Protein (%)</label>
                                 <input type="number" name="Quantity.protein" id="protein" className="p-3 border rounded-full w-full" placeholder="0.00%" step="0.01"
-                                    value={recievedForm.Quantity.protein} onChange={handleFormDataChange} />
+                                    value={receivedForm.Quantity.protein} onChange={handleFormDataChange} />
                             </div>
                         </div>
                         {/* bacteria testing */}
@@ -392,18 +392,18 @@ useEffect(() => {
                                     id="bacteria"
                                     className="w-5 h-5 appearance-none border border-gray-400 rounded-full checked:bg-[#D3D596] checked:border-[#305066]"
                                     onChange={handleFormDataChange}
-                                    checked={recievedForm.Quantity.bacteria}
+                                    checked={receivedForm.Quantity.bacteria}
                                 />
                                 <label htmlFor="bacteria" className="font-semibold">Bacteria Testing</label>
                             </div>
-                            {recievedForm.Quantity.bacteria && (
+                            {receivedForm.Quantity.bacteria && (
                                 <input
                                     type="text"
                                     name="Quantity.bacteriaInfo"
                                     id="bacteriaInfo"
                                     className="border rounded-full p-3"
                                     placeholder="Please fill additional information"
-                                    value={recievedForm.Quantity.bacteriaInfo}
+                                    value={receivedForm.Quantity.bacteriaInfo}
                                     onChange={handleFormDataChange}
                                 />
                             )}
@@ -417,18 +417,18 @@ useEffect(() => {
                                     id="contaminants"
                                     className="w-5 h-5 appearance-none border border-gray-400 rounded-full checked:bg-[#D3D596] checked:border-[#305066]"
                                     onChange={handleFormDataChange}
-                                    checked={recievedForm.Quantity.contaminants}
+                                    checked={receivedForm.Quantity.contaminants}
                                 />
                                 <label htmlFor="contaminants" className="font-semibold">Contaminants</label>
                             </div>
-                            {recievedForm.Quantity.contaminants && (
+                            {receivedForm.Quantity.contaminants && (
                                 <input
                                     type="text"
                                     name="Quantity.contaminantInfo"
                                     id="contaminantInfo"
                                     className="border rounded-full p-3"
                                     placeholder="Please fill additional information"
-                                    value={recievedForm.Quantity.contaminantInfo}
+                                    value={receivedForm.Quantity.contaminantInfo}
                                     onChange={handleFormDataChange}
                                 />
                             )}
@@ -442,51 +442,51 @@ useEffect(() => {
                                     id="abnormalChar"
                                     className="w-5 h-5 appearance-none border border-gray-400 rounded-full checked:bg-[#D3D596] checked:border-[#305066]"
                                     onChange={handleAbnormalChange}
-                                    checked={recievedForm.Quantity.abnormalChar}
+                                    checked={receivedForm.Quantity.abnormalChar}
                                 />
                                 <label htmlFor="abnormalChar" className="font-semibold">Abnormal Characteristic</label>
                             </div>
-                            {recievedForm.Quantity.abnormalChar && (
+                            {receivedForm.Quantity.abnormalChar && (
                                 <div className="flex flex-col w-full items-center gap-3 px-8">
                                     <div className="flex w-full items-center gap-3">
                                         <input type="checkbox" name="Quantity.abnormalType.smellBad" id="smellBad" className="border w-4 h-4"
-                                            checked={recievedForm.Quantity.abnormalType.smellBad} onChange={handleNestedCheckboxChange} />
+                                            checked={receivedForm.Quantity.abnormalType.smellBad} onChange={handleNestedCheckboxChange} />
                                         <label htmlFor="smellBad" className="font-semibold">Smell Bad</label>
                                     </div>
                                     <div className="flex w-full items-center gap-3">
                                         <input type="checkbox" name="Quantity.abnormalType.smellNotFresh" id="smellNotFresh" className="border w-4 h-4"
-                                            checked={recievedForm.Quantity.abnormalType.smellNotFresh} onChange={handleNestedCheckboxChange} />
+                                            checked={receivedForm.Quantity.abnormalType.smellNotFresh} onChange={handleNestedCheckboxChange} />
                                         <label htmlFor="smellNotFresh" className="font-semibold">Smell not fresh</label>
                                     </div>
                                     <div className="flex w-full items-center gap-3">
                                         <input type="checkbox" name="Quantity.abnormalType.abnormalColor" id="abnormalColor" className="border w-4 h-4"
-                                            checked={recievedForm.Quantity.abnormalType.abnormalColor} onChange={handleNestedCheckboxChange} />
+                                            checked={receivedForm.Quantity.abnormalType.abnormalColor} onChange={handleNestedCheckboxChange} />
                                         <label htmlFor="abnormalColor" className="font-semibold">Abnormal Color</label>
                                         <p className="text-gray-500">ex. yellow or green</p>
                                     </div>
                                     <div className="flex w-full items-center gap-3">
                                         <input type="checkbox" name="Quantity.abnormalType.sour" id="sour" className="border w-4 h-4"
-                                            checked={recievedForm.Quantity.abnormalType.sour} onChange={handleNestedCheckboxChange} />
+                                            checked={receivedForm.Quantity.abnormalType.sour} onChange={handleNestedCheckboxChange} />
                                         <label htmlFor="sour" className="font-semibold">Sour taste</label>
                                     </div>
                                     <div className="flex w-full items-center gap-3">
                                         <input type="checkbox" name="Quantity.abnormalType.bitter" id="bitter" className="border w-4 h-4"
-                                            checked={recievedForm.Quantity.abnormalType.bitter} onChange={handleNestedCheckboxChange} />
+                                            checked={receivedForm.Quantity.abnormalType.bitter} onChange={handleNestedCheckboxChange} />
                                         <label htmlFor="bitter" className="font-semibold">Bitter taste</label>
                                     </div>
                                     <div className="flex w-full items-center gap-3">
                                         <input type="checkbox" name="Quantity.abnormalType.cloudy" id="cloudy" className="border w-4 h-4"
-                                            checked={recievedForm.Quantity.abnormalType.cloudy} onChange={handleNestedCheckboxChange} />
+                                            checked={receivedForm.Quantity.abnormalType.cloudy} onChange={handleNestedCheckboxChange} />
                                         <label htmlFor="cloudy" className="font-semibold">Cloudy Appearance</label>
                                     </div>
                                     <div className="flex w-full items-center gap-3">
                                         <input type="checkbox" name="Quantity.abnormalType.lumpy" id="lumpy" className="border w-4 h-4"
-                                            checked={recievedForm.Quantity.abnormalType.lumpy} onChange={handleNestedCheckboxChange} />
+                                            checked={receivedForm.Quantity.abnormalType.lumpy} onChange={handleNestedCheckboxChange} />
                                         <label htmlFor="lumpy" className="font-semibold">Lumpy Appearance</label>
                                     </div>
                                     <div className="flex w-full items-center gap-3">
                                         <input type="checkbox" name="Quantity.abnormalType.separation" id="separation" className="border w-4 h-4"
-                                            checked={recievedForm.Quantity.abnormalType.separation} onChange={handleNestedCheckboxChange} />
+                                            checked={receivedForm.Quantity.abnormalType.separation} onChange={handleNestedCheckboxChange} />
                                         <label htmlFor="separation" className="font-semibold">Separation between water and fat</label>
                                     </div>
                                 </div>

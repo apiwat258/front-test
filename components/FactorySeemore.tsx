@@ -298,7 +298,7 @@ export default function FactorySeemore({ isOpen, onClose }: FactorySeemoreProps)
                                         <div><h3 className="text-lg font-semibold">🔥 Calories</h3> <p className="text-gray-700">{factoryData?.nutrition.calories || "-"} kcal</p></div>
                                         <div><h3 className="text-lg font-semibold">💪 Protein</h3> <p className="text-gray-700">{factoryData?.nutrition.protein || "-"} g</p></div>
                                         <div><h3 className="text-lg font-semibold">🥑 Total Fat</h3> <p className="text-gray-700">{factoryData?.nutrition.totalFat || "-"} g</p></div>
-                                        <div><h3 className="text-lg font-semibold">🩸 Cholesterol</h3> <p className="text-gray-700">{factoryData?.nutrition.colestoral || "-"} mg</p></div>
+                                        <div><h3 className="text-lg font-semibold">🩸 Cholesterol</h3> <p className="text-gray-700">{factoryData?.nutrition.cholesterol || "-"} mg</p></div>
                                         <div><h3 className="text-lg font-semibold">🍬 Sugar</h3> <p className="text-gray-700">{factoryData?.nutrition.sugar || "-"} g</p></div>
                                         <div><h3 className="text-lg font-semibold">🧪 pH Level</h3> <p className="text-gray-700">{factoryData?.nutrition.pH || "-"}</p></div>
                                     </div>

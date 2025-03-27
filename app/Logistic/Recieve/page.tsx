@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from "react";
 import { fetchOngoingShipments } from "@/services/trackingService"; // ✅ เปลี่ยน API Service ตัวใหม่
 
-const Recieve = () => {
+const receive = () => {
     const [trackingData, setTrackingData] = useState<
         { trackingId?: string; personInCharge?: string; productLotId?: string; status?: number | string }[]
     >([]);
@@ -53,7 +53,7 @@ const Recieve = () => {
                                     Person In Charge: <p className="inline font-normal">{item.personInCharge || "N/A"}</p>
                                 </span>
                                 <Link
-                                href={`/Logistic/Recieve/Details?trackingId=${item.trackingId}&lotId=${item.productLotId}`}
+                                href={`/Logistic/receive/Details?trackingId=${item.trackingId}&lotId=${item.productLotId}`}
                                 className="text-lg md:text-xl underline italic cursor-pointer mt-2 md:mt-0"
                                 >
                                 More info
@@ -68,4 +68,4 @@ const Recieve = () => {
         </div>
     );
 };
-export default Recieve;
+export default receive;

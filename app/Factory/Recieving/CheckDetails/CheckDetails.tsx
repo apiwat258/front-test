@@ -56,7 +56,7 @@ const CheckDetails = () => {
     });
 
     useEffect(() => {
-        const storedData = localStorage.getItem("recievedForm");
+        const storedData = localStorage.getItem("receivedForm");
         const tankIdFromURL = searchParams.get("tankId"); // ✅ ดึง tankId จาก URL
     
         if (storedData) {
@@ -97,7 +97,7 @@ const CheckDetails = () => {
     
             if (response) {
                 alert("คุณรับนมดิบสำเร็จ!");
-                localStorage.removeItem("recievedForm");
+                localStorage.removeItem("receivedForm");
                 router.push(`/Factory/FactoryDetails?id=${tankId}`);
             } else {
                 alert("เกิดข้อผิดพลาดในการส่งข้อมูล!");

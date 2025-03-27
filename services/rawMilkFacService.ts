@@ -26,7 +26,7 @@ export const getFactoryRawMilkTanks = async (mode: "list" | "selection" = "list"
             return [];
         }
 
-        // ✅ ถ้า `mode` เป็น "list" ให้ใช้โครงสร้างเดิมของ RecieveRM.tsx
+        // ✅ ถ้า `mode` เป็น "list" ให้ใช้โครงสร้างเดิมของ receiveRM.tsx
         if (mode === "list") {
             return data.displayedMilkTanks.map((tank: any) => ({
                 milkTankInfo: {

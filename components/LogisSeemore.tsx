@@ -58,7 +58,7 @@ export default function LogisSeemore({ isOpen, onClose, logistics }: LogisSeemor
                                         </h1>
                                         <div className="flex flex-col space-y-2 gap-3">
                                             <div className="flex justify-between">
-                                                <p className="font-semibold">Recieve Status:</p>
+                                                <p className="font-semibold">Receive Status:</p>
                                                 <p>{stage.charAt(0).toUpperCase() + stage.slice(1)}</p>
                                             </div>
                                             <div className="flex justify-between">

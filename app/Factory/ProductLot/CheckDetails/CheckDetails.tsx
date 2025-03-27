@@ -40,7 +40,7 @@ interface GeneralInfo {
 interface Nutrition {
     calories?: string;
     totalFat?: string;
-    colestoral?: string;
+    cholesterol?: string;
     sodium?: string;
     potassium?: string;
     totalCarbohydrates?: string;
@@ -414,7 +414,7 @@ const CheckDetails = () => {
                                 </div>
                                 <div className="flex justify-between">
                                     <p className="font-semibold">Cholesterol:</p>
-                                    <p>{data.nutrition.colestoral} mg</p>
+                                    <p>{data.nutrition.cholesterol} mg</p>
                                 </div>
                                 <div className="flex justify-between">
                                     <p className="font-semibold">Sodium:</p>

@@ -31,7 +31,7 @@ const SelectRole = () => {
                                 <img src="/images/factoryAvatar.png" alt="factory avatar" />
                             </div>
                             <label className="text-[#3D405B] font-bold text-2xl">Factory</label>
-                            <p className="text-[#3D405B] font-semibold text-xl">Recieve and process raw milk, ensuring quality and packing</p>
+                            <p className="text-[#3D405B] font-semibold text-xl">Receive and process raw milk, ensuring quality and packing</p>
                         </Link>
                     </div>
 
@@ -49,7 +49,7 @@ const SelectRole = () => {
                                 <img src="/images/RetailerAvatar.jpg" alt="retail avatar" />
                             </div>
                             <label className="text-[#3D405B] font-bold text-2xl">Retailer</label>
-                            <p className="text-[#3D405B] font-semibold text-xl">Recieve products and verify accuracy before selling to customers</p>
+                            <p className="text-[#3D405B] font-semibold text-xl">Receive products and verify accuracy before selling to customers</p>
                         </Link>
                     </div>
                 </div>

@@ -34,7 +34,7 @@ const RetailNav = () => {
             <div className={`flex-col md:flex-row md:flex gap-4 md:gap-24 justify-end items-center w-full md:w-1/2 ${isMenuOpen ? 'flex' : 'hidden'} md:flex`}>
                 <Link href={'/Retail/GeneralInfo'} className={`hover:text-[#D23D2D] whitespace-nowrap ${pathname === "/Retail/GeneralInfo" ? "text-[#D23D2D]" : ""}`}>General Information</Link>
                 <Link href={'/Retail/Delivered'} className={`hover:text-[#D23D2D]  ${pathname === "/Retail/Delivered" ? "text-[#D23D2D]" : ""}`}>Deliver</Link>
-                <Link href={'/Retail/Recieved'} className={`hover:text-[#D23D2D] ${pathname === "/Retail/Recieved" ? "text-[#D23D2D]" : ""}`}>Recieve</Link>
+                <Link href={'/Retail/received'} className={`hover:text-[#D23D2D] ${pathname === "/Retail/received" ? "text-[#D23D2D]" : ""}`}>Receive</Link>
                 <Link href={'/Retail/Profile'} className={`flex items-center border-2 border-[#EFE4DC] rounded-full px-2 md:px-3 py-1 md:py-2 shadow-md gap-2 md:gap-3 cursor-pointer hover:text-[#F8EECB] hover:bg-[#D23D2D]`}>
                     <div className="flex w-8 md:w-10 h-8 md:h-10 bg-slate-200 rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-8 md:w-10 h-8 md:h-10" viewBox="0 0 24 24">

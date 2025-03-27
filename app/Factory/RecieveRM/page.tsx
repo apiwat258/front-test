@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { getFactoryRawMilkTanks } from "@/services/rawMilkFacService";
 import Link from "next/link";
 
-const RecieveRM = () => {
+const receiveRM = () => {
     const [token, setToken] = useState<string | null>(null);
     const [filteredData, setFilteredData] = useState<any[]>([]);
 
@@ -31,7 +31,7 @@ const RecieveRM = () => {
         fetchData();
     }, []);
 
-    console.log("🚀 Debug: filteredData in RecieveRM.tsx", filteredData);
+    console.log("🚀 Debug: filteredData in receiveRM.tsx", filteredData);
 
     return (
         <div className="flex flex-col w-full h-full min-h-screen">
@@ -39,7 +39,7 @@ const RecieveRM = () => {
                 <img src="/images/FarmLandscape2.webp" alt="Farm" className="w-full h-full relative object-cover" />
             </div>
             <div className="flex flex-col justify-center items-center w-full h-full mt-10 px-4 md:px-0">
-                <h1 className="text-4xl md:text-6xl font-semibold">Recieved Order</h1>
+                <h1 className="text-4xl md:text-6xl font-semibold">Received Order</h1>
 
                 {/* Raw milk item */}
                 <div className="flex flex-col justify-center items-center w-full h-full my-10 gap-8">
@@ -77,4 +77,4 @@ const RecieveRM = () => {
         </div>
     );
 };
-export default RecieveRM;
+export default receiveRM;

@@ -59,7 +59,7 @@ interface ProductLotForm {
     nutrition: {
         calories: number;
         totalFat: number;
-        colestoral: number;
+        cholesterol: number;
         sodium: number;
         potassium: number;
         totalCarbohydrates: number;
@@ -462,7 +462,7 @@ const handleSelectUsername = (index: number, user: any) => {
         nutrition: {
             calories: 0,
             totalFat: 0,
-            colestoral: 0,
+            cholesterol: 0,
             sodium: 0,
             potassium: 0,
             totalCarbohydrates: 0,
@@ -515,7 +515,7 @@ const handleSelectUsername = (index: number, user: any) => {
                         ...prevData.nutrition,
                         calories: Number(productData.Nutrition.calories) || 0,
                         totalFat: Number(productData.Nutrition.totalFat) || 0,
-                        colestoral: Number(productData.Nutrition.colestoral) || 0,
+                        cholesterol: Number(productData.Nutrition.cholesterol) || 0,
                         sodium: Number(productData.Nutrition.sodium) || 0,
                         potassium: Number(productData.Nutrition.potassium) || 0,
                         totalCarbohydrates: Number(productData.Nutrition.totalCarbohydrates) || 0,
@@ -1186,10 +1186,10 @@ const handleSelectUsername = (index: number, user: any) => {
                         <label htmlFor="totalFat" className="font-semibold">Total Fat (g)</label>
                         <input type="number" name="nutrition.totalFat" id="totalFat" className="p-3 border rounded-full w-full" placeholder="0.00" step="0.01" value={productLotForm.nutrition.totalFat} onChange={handleFormDataChange}/>                        
                     </div>
-                    {/* Colestoral */}
+                    {/* cholesterol */}
                     <div className="flex flex-col w-full items-start gap-3">
-                        <label htmlFor="colestoral" className="font-semibold">Colestoral (mg)</label>
-                        <input type="number" name="nutrition.colestoral" id="colestoral" className="p-3 border rounded-full w-full" placeholder="0.00" step="0.01" value={productLotForm.nutrition.colestoral} onChange={handleFormDataChange}/>                        
+                        <label htmlFor="cholesterol" className="font-semibold">cholesterol (mg)</label>
+                        <input type="number" name="nutrition.cholesterol" id="cholesterol" className="p-3 border rounded-full w-full" placeholder="0.00" step="0.01" value={productLotForm.nutrition.cholesterol} onChange={handleFormDataChange}/>                        
                     </div>
                     {/* Sodium */}
                     <div className="flex flex-col w-full items-start gap-3">

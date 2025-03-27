@@ -22,7 +22,7 @@ interface Nutrition {
     protein: string;
     calories: string;
     totalFat: string;
-    colestoral: string;
+    cholesterol: string;
     sodium: string;
     potassium: string;
     totalCarbohydrates: string;
@@ -62,7 +62,7 @@ const CheckProductDetails = () => {
     const [data, setData] = useState<any>(null);
 
     useEffect(() => {
-        const storedData = localStorage.getItem("addProductForm"); // ✅ เปลี่ยนจาก recievedForm → addProductForm
+        const storedData = localStorage.getItem("addProductForm"); // ✅ เปลี่ยนจาก receivedForm → addProductForm
         if (storedData) {
             try {
                 setData(JSON.parse(storedData));
@@ -234,8 +234,8 @@ const CheckProductDetails = () => {
                                 <p>{data?.Nutrition?.totalFat}</p>
                             </div>
                             <div className="flex justify-between">
-                                <p className="font-semibold">Colestoral:</p>
-                                <p>{data?.Nutrition?.colestoral}</p>
+                                <p className="font-semibold">cholesterol:</p>
+                                <p>{data?.Nutrition?.cholesterol}</p>
                             </div>
                             <div className="flex justify-between">
                                 <p className="font-semibold">Sodium:</p>

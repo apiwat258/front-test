@@ -44,12 +44,12 @@ const FactoryNav = () => {
 
                 <div className="relative w-full md:w-auto text-center">
                     <button onClick={toggleDropdown} className={`whitespace-nowrap hover:text-[#ffa19d] ${pathname.startsWith("/Factory") ? "้hover:text-[#ffa19d]" : ""}`}>
-                        Recieve RM
+                        Receive RM
                     </button>
                     {isDropdownOpen && (
                         <div className="absolute mt-2 w-full md:w-40 bg-white rounded-md shadow-lg left-0 md:left-auto">
-                            <Link href={'/Factory/ToRecieve'} className="block px-4 py-2 text-gray-800 text-lg hover:bg-gray-200 hover:rounded-md" onClick={closeDropdown}>To Recieve</Link>
-                            <Link href={'/Factory/RecieveRM'} className="block px-4 py-2 text-gray-800 text-lg hover:bg-gray-200 hover:rounded-md" onClick={closeDropdown}>Recieved</Link>
+                            <Link href={'/Factory/Toreceive'} className="block px-4 py-2 text-gray-800 text-lg hover:bg-gray-200 hover:rounded-md" onClick={closeDropdown}>To Receive</Link>
+                            <Link href={'/Factory/receiveRM'} className="block px-4 py-2 text-gray-800 text-lg hover:bg-gray-200 hover:rounded-md" onClick={closeDropdown}>Received</Link>
                         </div>
                     )}
                 </div>

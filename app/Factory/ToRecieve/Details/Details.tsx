@@ -32,7 +32,7 @@ const Details = () => {
 
     return (
         <div className="flex flex-col justify-center items-center w-full h-full min-h-screen pt-20">
-            <h1 className="text-5xl font-bold mt-10">To Recieve Details</h1>
+            <h1 className="text-5xl font-bold mt-10">To Receive Details</h1>
 
             {data && (
                 <>

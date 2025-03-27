@@ -28,7 +28,7 @@ interface Nutrition {
     protein: number;
     calories: number;
     totalFat: number;
-    colestoral: number;
+    cholesterol: number;
     sodium: number;
     potassium: number;
     totalCarbohydrates: number;
@@ -149,7 +149,7 @@ const AddProduct = () => {
             protein: 0,
             calories: 0,
             totalFat: 0,
-            colestoral: 0,
+            cholesterol: 0,
             sodium: 0,
             potassium: 0,
             totalCarbohydrates: 0,
@@ -244,7 +244,7 @@ const AddProduct = () => {
     // ✅ ฟังก์ชัน Submit → บันทึกข้อมูลลง localStorage
     const saveToLocalStorage = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        localStorage.setItem("recievedForm", JSON.stringify(addProductForm));
+        localStorage.setItem("receivedForm", JSON.stringify(addProductForm));
         console.log(addProductForm);
     };
     // end save form Data
@@ -376,11 +376,11 @@ const AddProduct = () => {
                             <input type="number" name="Nutrition.totalFat" id="totalFat" className="p-3 border rounded-full w-full" placeholder="0.00" step="0.01"
                                 value={addProductForm?.Nutrition?.totalFat || ""} onChange={handleFormDataChange} />
                         </div>
-                        {/* Colestoral */}
+                        {/* cholesterol */}
                         <div className="flex flex-col w-full items-start gap-3">
-                            <label htmlFor="colestoral" className="font-semibold">Colestoral (mg)</label>
-                            <input type="number" name="Nutrition.colestoral" id="colestoral" className="p-3 border rounded-full w-full" placeholder="0.00" step="0.01"
-                                value={addProductForm?.Nutrition?.colestoral || ""} onChange={handleFormDataChange} />
+                            <label htmlFor="cholesterol" className="font-semibold">cholesterol (mg)</label>
+                            <input type="number" name="Nutrition.cholesterol" id="cholesterol" className="p-3 border rounded-full w-full" placeholder="0.00" step="0.01"
+                                value={addProductForm?.Nutrition?.cholesterol || ""} onChange={handleFormDataChange} />
                         </div>
                         {/* Sodium */}
                         <div className="flex flex-col w-full items-start gap-3">

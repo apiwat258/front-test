@@ -11,7 +11,7 @@ const CheckDetails = () => {
     const [selectedStatus, setSelectedStatus] = useState<"before" | "during" | "after">("before"); // ✅ State เลือกสถานะ
 
     useEffect(() => {
-        const storedData = localStorage.getItem("LogisRecieve");
+        const storedData = localStorage.getItem("Logisreceive");
     
         if (storedData) {
             try {
@@ -45,7 +45,7 @@ const CheckDetails = () => {
             quantity: entry.quantity ? Number(entry.quantity) : 0, // ✅ Convert to number
             temp: entry.temp ? Number(entry.temp) : 0, // ✅ Convert to number
             deliverTime: entry.deliverTime || "", // ✅ เวลายังใช้ string ได้
-            recieveTime: entry.recieveTime || "", 
+            receiveTime: entry.receiveTime || "", 
         });
     
         const checkpoints = {
@@ -204,7 +204,7 @@ const CheckDetails = () => {
                 <div className="flex justify-between">
                     <p className="font-semibold">Pick Up Time:</p>
                     {item.checkpoints[selectedStatus]?.length > 0 ? (
-                        <p>{formatDateTime(item.checkpoints[selectedStatus][0].recieveTime)}</p>
+                        <p>{formatDateTime(item.checkpoints[selectedStatus][0].receiveTime)}</p>
                     ) : (
                         <p>N/A</p>
                     )}
@@ -221,7 +221,7 @@ const CheckDetails = () => {
             <div key={i} className="flex flex-col space-y-2 gap-3">
                 <div className="flex justify-between">
                     <p className="font-semibold">Pickup Time:</p>
-                    <p>{formatDateTime(detail.recieveTime)}</p>
+                    <p>{formatDateTime(detail.receiveTime)}</p>
                 </div>
                 <div className="flex justify-between">
                     <p className="font-semibold">Deliver Time:</p>

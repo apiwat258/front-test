@@ -20,16 +20,16 @@ interface GeoData {
     postalCode: number;
 }
 
-interface LogisRecieveData {
+interface LogisreceiveData {
     GeneralInfo: {
-        recieveStatus: string;
+        receiveStatus: string;
         farmName: string;
         productLot: string;
         personInCharge: string;
     };
     ProductDetail: {
         deliverTime: string;
-        recieveTime: string;
+        receiveTime: string;
         quantity: number;
         quantityUnit: string;
         temp: number;
@@ -85,7 +85,7 @@ const Recieving = () => {
                     const productLotId = productLotData.shippingAddresses[0]?.qrCodeData?.productLotId || "";
                     const personInCharge = productLotData.Quality?.inspector || "";
     
-                    setLogisRecieve((prev) => {
+                    setLogisreceive((prev) => {
                         const updated = [...prev];
                         updated[0].GeneralInfo.farmName = factoryName;
                         updated[0].GeneralInfo.productLot = productLotId;
@@ -150,7 +150,7 @@ const Recieving = () => {
     const shippingAddressRef = useRef<HTMLDivElement>(null);
 
 // ✅ ตั้งค่า state ให้มีโครงสร้างที่ถูกต้อง
-const [LogisRecieve, setLogisRecieve] = useState([
+const [Logisreceive, setLogisreceive] = useState([
     {
         trackingId: "", // ต้องเก็บค่าของ tracking ID
         checkpoints: {
@@ -159,7 +159,7 @@ const [LogisRecieve, setLogisRecieve] = useState([
             after: [],
         },
         GeneralInfo: { // ใช้เฉพาะใน UI
-            recieveStatus: "",
+            receiveStatus: "",
             farmName: "",
             milkTankNo: "",
             personInCharge: "",
@@ -169,7 +169,7 @@ const [LogisRecieve, setLogisRecieve] = useState([
  // ✅ ใช้ useEffect เพื่อตั้งค่า trackingId หลังจากที่โหลดข้อมูลเสร็จ
  useEffect(() => {
     if (trackingIdFromURL) {
-        setLogisRecieve((prevData) => {
+        setLogisreceive((prevData) => {
             const updatedData = [...prevData];
             updatedData[0].trackingId = trackingIdFromURL;
             return updatedData;
@@ -177,9 +177,9 @@ const [LogisRecieve, setLogisRecieve] = useState([
     }
 }, [trackingIdFromURL]); // ✅ ทำงานเฉพาะเมื่อ URL มีการเปลี่ยนค่า id
 
- // ✅ อัปเดต handleNextClick ให้ตรวจสอบ recieveStatus ก่อน
+ // ✅ อัปเดต handleNextClick ให้ตรวจสอบ receiveStatus ก่อน
  const handleNextClick = useCallback(() => {
-    if (!LogisRecieve[0].GeneralInfo.recieveStatus) {
+    if (!Logisreceive[0].GeneralInfo.receiveStatus) {
         alert("Please select a Receiving Status before proceeding.");
         return;
     }
@@ -187,24 +187,24 @@ const [LogisRecieve, setLogisRecieve] = useState([
     setTimeout(() => {
         shippingAddressRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
-}, [LogisRecieve]); // เพิ่ม Dependency
+}, [Logisreceive]); // เพิ่ม Dependency
 
 // ✅ โหลดข้อมูลจาก localStorage เมื่อหน้าเว็บโหลด
 useEffect(() => {
     if (typeof window !== "undefined") {
-        const savedData = localStorage.getItem("LogisRecieve");
+        const savedData = localStorage.getItem("Logisreceive");
 
         if (savedData) {
             try {
                 const parsedData = JSON.parse(savedData);
 
                 if (parsedData.length && parsedData[0].trackingId) {
-                    // ✅ เพิ่มตรงนี้ → ถ้าไม่มี recieveStatus → เซ็ตให้เลย
-                    if (!parsedData[0].GeneralInfo.recieveStatus) {
-                        parsedData[0].GeneralInfo.recieveStatus = "Before";
+                    // ✅ เพิ่มตรงนี้ → ถ้าไม่มี receiveStatus → เซ็ตให้เลย
+                    if (!parsedData[0].GeneralInfo.receiveStatus) {
+                        parsedData[0].GeneralInfo.receiveStatus = "Before";
                     }
 
-                    setLogisRecieve(parsedData);
+                    setLogisreceive(parsedData);
                     return;
                 }
             } catch (error) {
@@ -213,7 +213,7 @@ useEffect(() => {
         }
 
         // ✅ ถ้าไม่มีข้อมูลเลย → ตั้งค่าใหม่
-        setLogisRecieve([
+        setLogisreceive([
             {
                 trackingId: trackingIdFromURL,
                 checkpoints: {
@@ -222,7 +222,7 @@ useEffect(() => {
                     after: [],
                 },
                 GeneralInfo: {
-                    recieveStatus: "Before", // Default
+                    receiveStatus: "Before", // Default
                     farmName: "",
                     milkTankNo: "",
                     personInCharge: "",
@@ -236,28 +236,28 @@ useEffect(() => {
 
 
 
-// ✅ บันทึกข้อมูลลง localStorage ทุกครั้งที่ LogisRecieve เปลี่ยน
+// ✅ บันทึกข้อมูลลง localStorage ทุกครั้งที่ Logisreceive เปลี่ยน
 useEffect(() => {
-    if (typeof window !== "undefined" && LogisRecieve.length > 0 && LogisRecieve[0].trackingId) {
-        console.log("📌 Saving to LocalStorage:", LogisRecieve);
-        localStorage.setItem("LogisRecieve", JSON.stringify(LogisRecieve));
+    if (typeof window !== "undefined" && Logisreceive.length > 0 && Logisreceive[0].trackingId) {
+        console.log("📌 Saving to LocalStorage:", Logisreceive);
+        localStorage.setItem("Logisreceive", JSON.stringify(Logisreceive));
     }
-}, [LogisRecieve]);
+}, [Logisreceive]);
 
 useEffect(() => {
-    console.log("✅ Current recieveStatus:", LogisRecieve[0].GeneralInfo.recieveStatus);
-}, [LogisRecieve[0].GeneralInfo.recieveStatus]);
+    console.log("✅ Current receiveStatus:", Logisreceive[0].GeneralInfo.receiveStatus);
+}, [Logisreceive[0].GeneralInfo.receiveStatus]);
 
 
-// ✅ ฟังก์ชัน handleLogisRecieveChange รองรับ text, select และ checkbox
-const handleLogisRecieveChange = useCallback(
+// ✅ ฟังก์ชัน handleLogisreceiveChange รองรับ text, select และ checkbox
+const handleLogisreceiveChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, type, value, checked } = event.target;
         const keys = name.split(".");
 
-        console.log(`🛠 Before Update: ${name} ->`, LogisRecieve[0]?.ProductDetail); // ✅ Log ก่อนอัปเดต
+        console.log(`🛠 Before Update: ${name} ->`, Logisreceive[0]?.ProductDetail); // ✅ Log ก่อนอัปเดต
 
-        setLogisRecieve((prevData) => {
+        setLogisreceive((prevData) => {
             return prevData.map((entry, index) => {
                 if (index === 0) {  // อัปเดตเฉพาะรายการแรก
                     let temp: any = { ...entry };
@@ -298,7 +298,7 @@ const handleLogisRecieveChange = useCallback(
 
     // ✅ ฟังก์ชัน handleAbnormalChange → เช็ค abnormalChar และโชว์ abnormalType
     const handleAbnormalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        handleLogisRecieveChange(event);
+        handleLogisreceiveChange(event);
         setShowAbnormalInfo(event.target.checked);
     };
     
@@ -307,7 +307,7 @@ const handleLogisRecieveChange = useCallback(
     const handleNestedCheckboxChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const { name, checked } = event.target;
 
-        setLogisRecieve((prevData) => {
+        setLogisreceive((prevData) => {
             const updatedData = [...prevData]; // Clone the array
             const temp = updatedData[index];
 
@@ -328,7 +328,7 @@ const saveToLocalStorage = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (typeof window !== "undefined") {
-        localStorage.setItem("LogisRecieve", JSON.stringify(LogisRecieve));
+        localStorage.setItem("Logisreceive", JSON.stringify(Logisreceive));
         alert("✅ Information Saved!");
     }
 };
@@ -338,23 +338,23 @@ const saveToLocalStorageAndNavigate = (event: React.MouseEvent<HTMLButtonElement
     event.preventDefault();
 
     if (typeof window !== "undefined") {
-        const savedData = localStorage.getItem("LogisRecieve");
+        const savedData = localStorage.getItem("Logisreceive");
         let parsedData = savedData ? JSON.parse(savedData) : [];
 
-        const trackingId = LogisRecieve[0].trackingId;
-        const currentStatus = LogisRecieve[0].GeneralInfo.recieveStatus.toLowerCase();
-        const currentData = { ...LogisRecieve[0].ProductDetail };
+        const trackingId = Logisreceive[0].trackingId;
+        const currentStatus = Logisreceive[0].GeneralInfo.receiveStatus.toLowerCase();
+        const currentData = { ...Logisreceive[0].ProductDetail };
 
         if (!trackingId) {
             alert("❌ Tracking ID is missing!");
             return;
         }
 
-        const updatedData = [...LogisRecieve];
+        const updatedData = [...Logisreceive];
         updatedData[0].checkpoints[currentStatus] = [currentData];
 
         // ✅ Force save state → เพื่อให้ After มีข้อมูลด้วย
-        setLogisRecieve(updatedData);
+        setLogisreceive(updatedData);
 
         // ✅ บันทึก LocalStorage ใหม่
         const existingEntryIndex = parsedData.findIndex((item: any) => item.trackingId === trackingId);
@@ -369,13 +369,13 @@ const saveToLocalStorageAndNavigate = (event: React.MouseEvent<HTMLButtonElement
                     during: [],
                     after: [],
                 },
-                GeneralInfo: LogisRecieve[0].GeneralInfo,
+                GeneralInfo: Logisreceive[0].GeneralInfo,
             };
             newEntry.checkpoints[currentStatus].push(currentData);
             parsedData.push(newEntry);
         }
 
-        localStorage.setItem("LogisRecieve", JSON.stringify(parsedData));
+        localStorage.setItem("Logisreceive", JSON.stringify(parsedData));
         console.log("✅ Saved to LocalStorage: ", parsedData);
 
         router.push("/Logistic/Recieving/CheckDetails");
@@ -388,17 +388,17 @@ const saveToLocalStorageAndNavigate = (event: React.MouseEvent<HTMLButtonElement
 
 // ✅ ฟังก์ชัน Save & Next Status (ไม่ไป CheckDetails ทันที)
 const handleNextStatus = () => {
-    const currentStatus = LogisRecieve[0].GeneralInfo.recieveStatus.toLowerCase();
+    const currentStatus = Logisreceive[0].GeneralInfo.receiveStatus.toLowerCase();
     const nextStatus = currentStatus === "before" ? "During" : currentStatus === "during" ? "After" : null;
 
-    const updatedData = [...LogisRecieve];
+    const updatedData = [...Logisreceive];
     const currentData = { ...updatedData[0].ProductDetail };
 
     // ✅ บันทึกค่าของ currentStatus ลง checkpoints เสมอ (ไม่ว่าจะ before, during หรือ after)
     updatedData[0].checkpoints[currentStatus] = [currentData];
 
     // ✅ Save LocalStorage ก่อน
-    localStorage.setItem("LogisRecieve", JSON.stringify(updatedData));
+    localStorage.setItem("Logisreceive", JSON.stringify(updatedData));
 
     // ✅ ถ้าเป็น After → ไม่ต้องไปต่อ
     if (!nextStatus) {
@@ -406,11 +406,11 @@ const handleNextStatus = () => {
         return;
     }
 
-    // ✅ ถัดไป → อัปเดต recieveStatus
-    updatedData[0].GeneralInfo.recieveStatus = nextStatus;
-    setLogisRecieve(updatedData);
+    // ✅ ถัดไป → อัปเดต receiveStatus
+    updatedData[0].GeneralInfo.receiveStatus = nextStatus;
+    setLogisreceive(updatedData);
 
-    console.log(`🔄 Updated recieveStatus: ${nextStatus}`);
+    console.log(`🔄 Updated receiveStatus: ${nextStatus}`);
     console.log(`📌 Checkpoints AFTER Update:`, updatedData[0].checkpoints);
 };
 
@@ -487,9 +487,9 @@ const submitAndNavigate = () => {
                     <h1 className="text-5xl font-bold">General Information</h1>
                     {/* Recieving Status */}
                     <div className="flex flex-col w-full items-start gap-3">
-                        <label htmlFor="recieveStatus" className="font-semibold">Recieving Status</label>
-                        <select name="GeneralInfo.recieveStatus" id="recieveStatus" className="border rounded-full p-3 w-fit"
-                            value={LogisRecieve[0].GeneralInfo.recieveStatus} onChange={(e) => handleLogisRecieveChange(e, 0)}>
+                        <label htmlFor="receiveStatus" className="font-semibold">Recieving Status</label>
+                        <select name="GeneralInfo.receiveStatus" id="receiveStatus" className="border rounded-full p-3 w-fit"
+                            value={Logisreceive[0].GeneralInfo.receiveStatus} onChange={(e) => handleLogisreceiveChange(e, 0)}>
                             <option value="Before">Before</option>
                             <option value="During">During</option>
                             <option value="After">After</option>
@@ -500,20 +500,20 @@ const submitAndNavigate = () => {
                         <label htmlFor="farmName" className="font-semibold">Factory Name</label>
                         <input type="text" id="farmName"
                             placeholder="Enter your farm name" className="border rounded-full p-3 w-full"
-                            name="GeneralInfo.farmName" value={LogisRecieve[0].GeneralInfo.farmName} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                            name="GeneralInfo.farmName" value={Logisreceive[0].GeneralInfo.farmName} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                     </div>
                     {/* Milk tank no. */}
                     <div className="flex flex-col w-full items-start gap-3">
                         <label htmlFor="productLot" className="font-semibold">Product Lot:</label>
                         <input type="text" id="productLot" placeholder="Enter your milk tank number" className="border rounded-full p-3 w-full"
-                            name="GeneralInfo.productLot" value={LogisRecieve[0].GeneralInfo.productLot} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                            name="GeneralInfo.productLot" value={Logisreceive[0].GeneralInfo.productLot} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                     </div>
                     {/* Person in charge */}
                     <div className="flex flex-col w-full items-start gap-3">
                         <label htmlFor="personInCharge" className="font-semibold">Person In Charge</label>
                         <input type="text" name="GeneralInfo.personInCharge" id="personInCharge"
                             placeholder="Enter name of person in charge" className="border rounded-full p-3 w-full"
-                            value={LogisRecieve[0].GeneralInfo.personInCharge} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                            value={Logisreceive[0].GeneralInfo.personInCharge} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                     </div>
 
                     <button
@@ -533,12 +533,12 @@ const submitAndNavigate = () => {
                             <div className="flex flex-col w-1/2 items-start gap-3">
                                 <label htmlFor="Deliver" className="font-semibold">Pickup Time</label>
                                 <input type="datetime-local" name="ProductDetail.deliverTime" id="Deliver" className="border rounded-full p-3 w-full"
-                                    value={LogisRecieve[0]?.ProductDetail?.deliverTime || ""} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                                    value={Logisreceive[0]?.ProductDetail?.deliverTime || ""} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                             </div>
                             <div className="flex flex-col w-1/2 items-start gap-3">
-                                <label htmlFor="Recieve" className="font-semibold">Deliver Time</label>
-                                <input type="datetime-local" name="ProductDetail.recieveTime" id="Recieve" className="border rounded-full p-3 w-full"
-                                    value={LogisRecieve[0]?.ProductDetail?.recieveTime || ""} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                                <label htmlFor="receive" className="font-semibold">Deliver Time</label>
+                                <input type="datetime-local" name="ProductDetail.receiveTime" id="receive" className="border rounded-full p-3 w-full"
+                                    value={Logisreceive[0]?.ProductDetail?.receiveTime || ""} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                             </div>
                         </div>
                         {/* Quantity + temperature */}
@@ -549,9 +549,9 @@ const submitAndNavigate = () => {
                                 <div className="flex gap-3 w-full">
                                     <input type="number" name="ProductDetail.quantity" id="quantity"
                                         className="border rounded-full p-3 w-4/5" placeholder="0.00" step="0.01"
-                                        value={LogisRecieve[0]?.ProductDetail?.quantity || 0} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                                        value={Logisreceive[0]?.ProductDetail?.quantity || 0} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                                     <select name="ProductDetail.quantityUnit" id="quantityUnit" className="border rounded-full p-3 w-1/5 font-semibold"
-                                        value={LogisRecieve[0]?.ProductDetail?.quantityUnit || "Ton"} onChange={(e) => handleLogisRecieveChange(e, 0)}>
+                                        value={Logisreceive[0]?.ProductDetail?.quantityUnit || "Ton"} onChange={(e) => handleLogisreceiveChange(e, 0)}>
                                         <option value="Ton">Ton</option>
                                         <option value="Liter">Liter</option>
                                         <option value="Ml">Milliliter</option>
@@ -566,9 +566,9 @@ const submitAndNavigate = () => {
                                 <label htmlFor="temp" className="font-semibold">Temperature</label>
                                 <div className="flex w-full items-start gap-3">
                                     <input type="number" name="ProductDetail.temp" id="temp" className="p-3 rounded-full border w-4/5" placeholder="0.00" step="0.01"
-                                        value={LogisRecieve[0]?.ProductDetail?.temp || 0} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                                        value={Logisreceive[0]?.ProductDetail?.temp || 0} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                                     <select name="ProductDetail.tempUnit" id="tempUnit" className="border rounded-full p-3 w-1/5 font-semibold"
-                                        value={LogisRecieve[0]?.ProductDetail?.tempUnit || "Celcius"} onChange={(e) => handleLogisRecieveChange(e, 0)}>
+                                        value={Logisreceive[0]?.ProductDetail?.tempUnit || "Celcius"} onChange={(e) => handleLogisreceiveChange(e, 0)}>
                                         <option value="Celcius">°C</option>
                                         <option value="Farenheit">°F</option>
                                     </select>
@@ -580,26 +580,26 @@ const submitAndNavigate = () => {
                         <div className="flex flex-col w-full gap-5 mt-10">
                             <label htmlFor="companyName" className="font-semibold">Company Name</label>
                             <input type="text" name="ProductDetail.companyName" id="companyName" className="border p-3 rounded-full" placeholder="Enter your company name"
-                                value={LogisRecieve[0]?.ProductDetail?.companyName || ""} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                                value={Logisreceive[0]?.ProductDetail?.companyName || ""} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                         </div>
                         {/* First name + Last name */}
                         <div className="flex items-center w-full gap-5">
                             <div className="flex flex-col w-1/2 gap-3">
                                 <label htmlFor="fName" className="font-semibold">First Name</label>
                                 <input type="text" name="ProductDetail.firstName" id="fName" className="border p-3 rounded-full" placeholder="Enter your first name"
-                                    value={LogisRecieve[0]?.ProductDetail?.firstName || ""} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                                    value={Logisreceive[0]?.ProductDetail?.firstName || ""} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                             </div>
                             <div className="flex flex-col w-1/2 gap-3">
                                 <label htmlFor="lName" className="font-semibold">Last Name</label>
                                 <input type="text" name="ProductDetail.lastName" id="lName" className="border p-3 rounded-full" placeholder="Enter your last name"
-                                    value={LogisRecieve[0]?.ProductDetail?.lastName || ""} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                                    value={Logisreceive[0]?.ProductDetail?.lastName || ""} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                             </div>
                         </div>
 
                         <div className="flex flex-col w-full gap-3">
                             <label htmlFor="email" className="font-semibold">Email</label>
                             <input type="text" name="ProductDetail.email" id="email" className="border p-3 rounded-full" placeholder="Enter your Email"
-                                value={LogisRecieve[0]?.ProductDetail?.email || ""} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                                value={Logisreceive[0]?.ProductDetail?.email || ""} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                         </div>
 
                         {/* Phone Number */}
@@ -615,8 +615,8 @@ const submitAndNavigate = () => {
                                         id="areaCode"
                                         className="border border-gray-300 rounded-full p-3 w-auto text-center"
                                         required
-                                        value={LogisRecieve[0]?.ProductDetail?.areaCode || "+66"}
-                                        onChange={(e) => handleLogisRecieveChange(e, 0)}
+                                        value={Logisreceive[0]?.ProductDetail?.areaCode || "+66"}
+                                        onChange={(e) => handleLogisreceiveChange(e, 0)}
                                     >
                                         <option value="+66">+66</option>
                                     </select>
@@ -630,8 +630,8 @@ const submitAndNavigate = () => {
                                     className="border border-gray-300 rounded-full p-3 flex-1 w-10/12"
                                     placeholder="Enter your phone number"
                                     required
-                                    value={LogisRecieve[0]?.ProductDetail?.phoneNumber || ""}
-                                    onChange={(e) => handleLogisRecieveChange(e, 0)}
+                                    value={Logisreceive[0]?.ProductDetail?.phoneNumber || ""}
+                                    onChange={(e) => handleLogisreceiveChange(e, 0)}
                                 />
                             </div>
                         </div>
@@ -640,14 +640,14 @@ const submitAndNavigate = () => {
                         <div className="flex flex-col text-start font-medium w-full h-40 gap-3">
                             <label htmlFor="address">Address</label>
                             <textarea name="ProductDetail.address" id="address" className="border border-gray-300 rounded-3xl p-3 flex-1 w-full"
-                                value={LogisRecieve[0]?.ProductDetail?.address || ""} onChange={(e) => handleLogisRecieveChange(e, 0)}></textarea>
+                                value={Logisreceive[0]?.ProductDetail?.address || ""} onChange={(e) => handleLogisreceiveChange(e, 0)}></textarea>
                         </div>
 
                         {/* province */}
                         <div className="flex flex-col w-full text-start gap-3">
                             <label htmlFor="province" className="font-semibold" >Province</label>
                             <select name="ProductDetail.province" id="province" className="border border-gray-300 rounded-full p-3 text-center"
-                                value={selectedProvince} onChange={(e) => handleLogisRecieveChange(e, 0)}>
+                                value={selectedProvince} onChange={(e) => handleLogisreceiveChange(e, 0)}>
                                 <option value="">Select province</option>
                                 {provinceList.map((prov, index) => (
                                     <option key={index} value={prov}>
@@ -662,7 +662,7 @@ const submitAndNavigate = () => {
                             <div className="flex flex-col text-start w-6/12 gap-3">
                                 <label htmlFor="district" className="font-semibold">District</label>
                                 <select name="ProductDetail.district" id="district" className="border border-gray-300 rounded-full p-3 text-center"
-                                    value={selectedDistrict} onChange={(e) => handleLogisRecieveChange(e, 0)} disabled={!selectedProvince}>
+                                    value={selectedDistrict} onChange={(e) => handleLogisreceiveChange(e, 0)} disabled={!selectedProvince}>
                                     <option value="">Select district</option>
                                     {districtList.map((dist, index) => (
                                         <option key={index} value={dist}>
@@ -675,7 +675,7 @@ const submitAndNavigate = () => {
                             <div className="flex flex-col text-start w-6/12 gap-3">
                                 <label htmlFor="subDistrict" className="font-semibold">Sub-District</label>
                                 <select name="ProductDetail.subDistrict" id="subDistrict" className="border border-gray-300 rounded-full p-3 text-center"
-                                    value={selectedSubDistrict} onChange={(e) => handleLogisRecieveChange(e, 0)} disabled={!selectedDistrict}>
+                                    value={selectedSubDistrict} onChange={(e) => handleLogisreceiveChange(e, 0)} disabled={!selectedDistrict}>
                                     <option value="">Select sub-district</option>
                                     {subDistrictList.map((subDist, index) => (
                                         <option key={index} value={subDist}>
@@ -690,7 +690,7 @@ const submitAndNavigate = () => {
                         <div className="flex flex-col text-start w-full gap-3">
                             <label htmlFor="postalCode" className="font-semibold">Zip/Postal Code</label>
                             <input type="text" name="ProductDetail.postalCode" id="postalCode" className="border border-gray-300 rounded-full p-3 w-full" placeholder="Enter postal code"
-                                value={LogisRecieve[0]?.ProductDetail?.postalCode || ""} onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                                value={Logisreceive[0]?.ProductDetail?.postalCode || ""} onChange={(e) => handleLogisreceiveChange(e, 0)} />
                         </div>
 
                         {/* location */}
@@ -698,20 +698,20 @@ const submitAndNavigate = () => {
                             <label htmlFor="location" className="font-semibold">Location</label>
                             <input type="text" name="ProductDetail.location" id="location" className="border border-gray-300 rounded-full p-3 flex-1 w-full"
                                 placeholder="Paste location url"
-                                value={LogisRecieve[0]?.ProductDetail?.location || ""}
-                                onChange={(e) => handleLogisRecieveChange(e, 0)} />
+                                value={Logisreceive[0]?.ProductDetail?.location || ""}
+                                onChange={(e) => handleLogisreceiveChange(e, 0)} />
                         </div>
 
                         <button
     type="button"
     className="flex text-center self-end bg-[#C2CC8D] text-[#52600A] p-3 rounded-full hover:bg-[#C0E0C8]"
     onClick={
-        LogisRecieve[0].GeneralInfo.recieveStatus === "After"
+        Logisreceive[0].GeneralInfo.receiveStatus === "After"
             ? saveToLocalStorageAndNavigate // ✅ เปลี่ยนมาเรียกอันนี้!
             : handleNextStatus
     }
 >
-    {LogisRecieve[0].GeneralInfo.recieveStatus === "After" ? "Submit & CheckDetails" : "Next"}
+    {Logisreceive[0].GeneralInfo.receiveStatus === "After" ? "Submit & CheckDetails" : "Next"}
 </button>
 
 

@@ -65,7 +65,7 @@ const FactoryDetails = () => {
 
     return (
         <div className="flex flex-col w-full h-full min-h-screen items-center justify-center pt-24 bg-gray-100 text-gray-500">
-            <h1 className="text-5xl font-bold text-black">Recieved Details</h1>
+            <h1 className="text-5xl font-bold text-black">Received Details</h1>
             {data && (
                 <div className="flex flex-col md:flex-row justify-between gap-10 w-full p-4 md:p-14">
                     {/* Recipient Info */}

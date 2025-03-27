@@ -10,7 +10,7 @@ const ProductLot = () => {
     const statusMap = {
         0: "Pending",      
         1: "In Transit",    
-        2: "Recieved"      
+        2: "Received"      
     };
     
     useEffect(() => {
