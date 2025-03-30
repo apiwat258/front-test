@@ -161,7 +161,7 @@ export const getLogisticsCheckpointsByTrackingId = async (trackingId: string) =>
 
 export const getRetailerTracking = async (): Promise<any> => {
     try {
-        const response = await fetch(API_URL + "retailer", {
+        const response = await fetch(API_URL + "retailer/intransit", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -198,6 +198,44 @@ export const getRetailerTracking = async (): Promise<any> => {
     }
 };
 
+export const getRetailerReceivedTracking = async (): Promise<any> => {
+    try {
+        const response = await fetch(API_URL + "retailer/received-tracking", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            cache: "no-store",
+        });
+
+        if (!response.ok) {
+            console.error("❌ Failed to fetch retailer received tracking IDs, Status:", response.status);
+            throw new Error("Failed to fetch retailer received tracking IDs");
+        }
+
+        const data = await response.json();
+        console.log("📡 API Response (Received):", data);
+
+        if (!data || typeof data !== "object" || !Array.isArray(data.trackingList)) {
+            console.error("❌ Invalid API response format (Received):", data);
+            return [];
+        }
+
+        // ✅ แปลงข้อมูลครบทุก field
+        return data.trackingList.map((tracking: any) => ({
+            trackingId: tracking?.trackingId || "Unknown",
+            moreInfoLink: tracking?.moreInfoLink || "#",
+            personInCharge: tracking?.personInCharge || "Unknown",
+            productLotId: tracking?.productLotId || "Unknown",
+            status: tracking?.status || 2,
+        }));
+
+    } catch (error) {
+        console.error("❌ Error fetching retailer received tracking IDs:", error);
+        return [];
+    }
+};
 
 
 export const retailerReceiveProduct = async (trackingId: string, formData: any) => {

@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { getRetailerTracking } from "@/services/trackingService";
+import { getRetailerReceivedTracking } from "@/services/trackingService";
 
 interface TrackingItem {
     trackingId: string;
@@ -18,7 +18,7 @@ const Recieve = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getRetailerTracking();
+                const res = await getRetailerReceivedTracking();
                 console.log("🔥 API Response:", res);
 
                 // ✅ กรองเอาเฉพาะ status === 2
