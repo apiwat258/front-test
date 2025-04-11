@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TRACEABILITY SYSTEM FOR ORGANIC DAIRY PRODUCTS USING BLOCKCHAIN TECHNOLOGY (FRONTEND)
 
-## Getting Started
+This is the frontend (web application) of the Organic Dairy Product Traceability System. It is built using **Next.js** and connects to a backend API powered by **Go (Fiber)** to allow users to trace, manage, and verify dairy products through every stage of the supply chain.
 
-First, run the development server:
+---
 
-```bash
+## 🌐 Live Demo (Optional)
+
+> If deployed, add link here  
+> Example: https://your-project-frontend.vercel.app/
+
+---
+
+## 🧰 Tech Stack
+
+- **Framework:** Next.js 14+ (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **QR Scanner:** react-qr-scanner
+- **HTTP Client:** Axios
+- **Environment Config:** dotenv
+- **Backend Communication:** via REST API
+
+---
+
+## 📁 Project Structure Overview
+
+front-test/ ├── app/ # Pages (App Router structure) ├── components/ # Reusable UI components ├── hooks/ # Custom React hooks ├── lib/ # Utility functions ├── providers/ # Context/state providers ├── public/ # Static assets ├── services/ # API service modules │ └── apiConfig.ts # Backend base URL config ├── thailand-geography-json/ # JSON for Thai locations ├── tailwind.config.ts # Tailwind setup ├── next.config.ts # Next.js config ├── .env.local # Environment file └── README.md
+
+yaml
+Copy
+Edit
+
+---
+
+## 🔌 Connecting to Backend
+
+All API calls are configured in:
+
+```ts
+// services/apiConfig.ts
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8081/api/v1";
+export default API_BASE_URL;
+To customize the backend URL, create a .env.local file in the root:
+
+env
+Copy
+Edit
+NEXT_PUBLIC_API_URL=http://localhost:8081/api/v1
+This URL should match the backend server (running on Go).
+
+⚙️ Getting Started
+1. Clone the Repository
+bash
+Copy
+Edit
+git clone https://github.com/your-username/front-test.git
+cd front-test
+2. Install Dependencies
+bash
+Copy
+Edit
+npm install
+# or
+yarn install
+3. Create Environment File
+bash
+Copy
+Edit
+cp .env.example .env.local
+Edit .env.local as needed:
+
+env
+Copy
+Edit
+NEXT_PUBLIC_API_URL=http://localhost:8081/api/v1
+4. Run Development Server
+bash
+Copy
+Edit
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Visit http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🚀 Features
+Multi-role support: Farmer, Factory, Logistics, Retailer
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Profile and product registration forms
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+QR Code generation and scanning for tracking
 
-## Learn More
+Integration with backend blockchain system
 
-To learn more about Next.js, take a look at the following resources:
+Dynamic location autocomplete (Thai geography)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Tracking system: pending, in-transit, delivered
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+🧪 Recommended Versions
+Tool	Version
+Node.js	>= 18.x
+npm	>= 9.x
+Git	Latest
+📦 Production Build
+bash
+Copy
+Edit
+npm run build
+npm start
+✅ Notes
+The backend must be running before testing frontend APIs.
 
-## Deploy on Vercel
+Compatible with Vercel deployment. Make sure to set NEXT_PUBLIC_API_URL as an environment variable in your Vercel project settings.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+👥 Contributors
+Frontend Developer: Apiwat W.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+UI/UX Designer: [Name]
+
+Blockchain Integration: [Name]
+
+📄 License
+This project is licensed under the MIT License.
