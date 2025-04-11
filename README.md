@@ -1,121 +1,132 @@
-# TRACEABILITY SYSTEM FOR ORGANIC DAIRY PRODUCTS USING BLOCKCHAIN TECHNOLOGY (FRONTEND)
 
-This is the frontend (web application) of the Organic Dairy Product Traceability System. It is built using **Next.js** and connects to a backend API powered by **Go (Fiber)** to allow users to trace, manage, and verify dairy products through every stage of the supply chain.
+# Blockchain-Based Agricultural Supply Chain Frontend
 
----
+This is the **frontend** system for the blockchain-based agricultural supply chain project. Built with **Next.js (App Router)** and **Tailwind CSS**, it connects to a Golang backend and interacts with smart contracts, IPFS, and blockchain data. The system supports role-based views for **Farmers, Factories, Logistics Providers**, and **Retailers**, and includes QR code generation and scan support.
 
-## 🌐 Live Demo (Optional)
+## 🌐 Live Demo
 
-> If deployed, add link here  
-> Example: https://your-project-frontend.vercel.app/
+👉 [https://front-test-s6zk.vercel.app](https://front-test-s6zk.vercel.app)
 
 ---
 
-## 🧰 Tech Stack
+## 📁 Project Structure
 
-- **Framework:** Next.js 14+ (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **QR Scanner:** react-qr-scanner
-- **HTTP Client:** Axios
-- **Environment Config:** dotenv
-- **Backend Communication:** via REST API
+```
+front-test/
+├── app/                    → Next.js App Router pages & layouts
+├── components/             → Reusable UI components (cards, forms, layout)
+├── hooks/                  → Custom React hooks
+├── lib/                    → Utility functions and logic helpers
+├── providers/              → Context providers (Auth, Theme, etc.)
+├── public/                 → Static assets (images, icons, etc.)
+├── services/               → API service handlers (auth, farm, logistics, etc.)
+├── thailand-geography-json/ → Geo data for Thai provinces/districts
+├── .eslintrc.json
+├── .gitignore
+├── next.config.ts
+├── tailwind.config.ts
+├── tsconfig.json
+└── README.md
+```
 
 ---
 
-## 📁 Project Structure Overview
+## ⚙️ Configuration
 
-front-test/ ├── app/ # Pages (App Router structure) ├── components/ # Reusable UI components ├── hooks/ # Custom React hooks ├── lib/ # Utility functions ├── providers/ # Context/state providers ├── public/ # Static assets ├── services/ # API service modules │ └── apiConfig.ts # Backend base URL config ├── thailand-geography-json/ # JSON for Thai locations ├── tailwind.config.ts # Tailwind setup ├── next.config.ts # Next.js config ├── .env.local # Environment file └── README.md
-
-yaml
-Copy
-Edit
-
----
-
-## 🔌 Connecting to Backend
-
-All API calls are configured in:
+Before running the project, make sure to set the correct **API base URL** in `services/apiConfig.ts`.
 
 ```ts
-// services/apiConfig.ts
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8081/api/v1";
 export default API_BASE_URL;
-To customize the backend URL, create a .env.local file in the root:
+```
 
-env
-Copy
-Edit
-NEXT_PUBLIC_API_URL=http://localhost:8081/api/v1
-This URL should match the backend server (running on Go).
+If deploying to production (e.g., Vercel), set the environment variable:
 
-⚙️ Getting Started
-1. Clone the Repository
-bash
-Copy
-Edit
-git clone https://github.com/your-username/front-test.git
-cd front-test
-2. Install Dependencies
-bash
-Copy
-Edit
+```
+NEXT_PUBLIC_API_URL=https://your-backend-url.duckdns.org/api/v1
+```
+
+You can set this in `.env.local` (for local) or Vercel's **Project Settings > Environment Variables**.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install Dependencies
+
+```bash
 npm install
 # or
-yarn install
-3. Create Environment File
-bash
-Copy
-Edit
-cp .env.example .env.local
-Edit .env.local as needed:
+yarn
+# or
+pnpm install
+```
 
-env
-Copy
-Edit
-NEXT_PUBLIC_API_URL=http://localhost:8081/api/v1
-4. Run Development Server
-bash
-Copy
-Edit
+### 2. Run Development Server
+
+```bash
 npm run dev
-Visit http://localhost:3000
+# or
+yarn dev
+```
 
-🚀 Features
-Multi-role support: Farmer, Factory, Logistics, Retailer
+Then open your browser at: [http://localhost:3000](http://localhost:3000)
 
-Profile and product registration forms
+---
 
-QR Code generation and scanning for tracking
+## 🧩 Main Features
 
-Integration with backend blockchain system
+- ✅ Role-Based Interface (Farmer, Factory, Logistics, Retailer)
+- ✅ JWT Auth with Role Switching
+- ✅ Form for General Information with Thai province dropdowns
+- ✅ Certification Upload via IPFS
+- ✅ Product Lot Creation & Preview
+- ✅ Logistics Checkpoint Management
+- ✅ QR Code Generation & Scanning
+- ✅ Backend-connected using `services/*.ts`
 
-Dynamic location autocomplete (Thai geography)
+---
 
-Tracking system: pending, in-transit, delivered
+## 🛠️ Services Overview (API Handlers)
 
-🧪 Recommended Versions
-Tool	Version
-Node.js	>= 18.x
-npm	>= 9.x
-Git	Latest
-📦 Production Build
-bash
-Copy
-Edit
-npm run build
-npm start
-✅ Notes
-The backend must be running before testing frontend APIs.
+| File Name              | Purpose                              |
+|------------------------|--------------------------------------|
+| `authService.ts`       | Login, Register, Update Role         |
+| `farmService.ts`       | Create farmer profile                |
+| `factoryService.ts`    | Create factory profile               |
+| `logisticsService.ts`  | Logistics general info & tracking    |
+| `retailerService.ts`   | Retailer profile                     |
+| `rawMilkService.ts`    | Raw milk tank creation & view        |
+| `productService.ts`    | Product info & nutrition             |
+| `productlotService.ts` | Product lot creation, preview        |
+| `certificateService.ts`| Upload & create IPFS certification   |
+| `trackingService.ts`   | View checkpoints per role            |
 
-Compatible with Vercel deployment. Make sure to set NEXT_PUBLIC_API_URL as an environment variable in your Vercel project settings.
+---
 
-👥 Contributors
-Frontend Developer: Apiwat W.
+## 🧪 Testing Pages (Optional)
 
-UI/UX Designer: [Name]
+- `/auth/register` – User registration
+- `/dashboard` – Redirects after login
+- `/farm`, `/factory`, `/logistics`, `/retailer` – Role-specific pages
+- `/track/:productLotId` – Tracking & QR page
 
-Blockchain Integration: [Name]
+---
 
-📄 License
-This project is licensed under the MIT License.
+## 📦 Deployment
+
+This frontend is designed for deployment on [Vercel](https://vercel.com). Example steps:
+
+1. Push your code to GitHub
+2. Go to [https://vercel.com/new](https://vercel.com/new)
+3. Import your repo
+4. Set environment variable:
+   - `NEXT_PUBLIC_API_URL=https://your-backend.duckdns.org/api/v1`
+
+Done! Vercel will auto-deploy on every push.
+
+---
+
+## 🧾 License
+
+MIT License © 2025
